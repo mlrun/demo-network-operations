@@ -1,0 +1,22 @@
+kind: job
+metadata:
+  name: aggregate
+  tag: ''
+  hash: d81a85a65b952eb3e2442e623bf2fe9adeecaf9e
+  project: ''
+spec:
+  command: /User/demo-network-operations/src/aggregate.py
+  args: []
+  env:
+  - name: V3IO_API
+    value: ''
+  - name: V3IO_USERNAME
+    value: ''
+  - name: V3IO_ACCESS_KEY
+    value: ''
+  description: ''
+  build:
+    commands:
+    - pip install pyarrow
+    - pip install pandas
+    code_origin: http://github.com/zilbermanor/demo-network-operations#cd1d23affeaff631e89b9118a8462ab7da6522fd:aggregate.ipynb
