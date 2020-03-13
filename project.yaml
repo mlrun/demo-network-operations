@@ -136,4 +136,6 @@ functions:
       function_kind: serving
       build:
         source: ./
-workflows: []
+workflows:
+- name: main
+  code: /User/demo-network-operations/src/workflow.py
