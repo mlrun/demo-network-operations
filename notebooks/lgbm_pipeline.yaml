@@ -1,0 +1,667 @@
+"apiVersion": |-
+  argoproj.io/v1alpha1
+"kind": |-
+  Workflow
+"metadata":
+  "annotations":
+    "pipelines.kubeflow.org/pipeline_spec": |-
+      {"description": "Train a Failure Prediction LGBM Model over sensor data", "inputs": [{"default": "/User/demo-network-operations/data/metrics.pq", "name": "df_artifact", "optional": true}, {"default": "[\"cpu_utilization\"]", "name": "metrics", "optional": true}, {"default": "[\"is_error\"]", "name": "labels", "optional": true}, {"default": "[\"mean\", \"sum\"]", "name": "metric_aggs", "optional": true}, {"default": "[\"max\"]", "name": "label_aggs", "optional": true}, {"default": "daily", "name": "suffix", "optional": true}, {"default": "True", "name": "append_to_df", "optional": true}, {"default": "5", "name": "window", "optional": true}, {"default": "True", "name": "center", "optional": true}, {"default": "/User/demo-network-operations/data/aggregate.pq", "name": "save_to", "optional": true}, {"default": "summary", "name": "describe_table", "optional": true}, {"default": "is_error", "name": "label_column", "optional": true}, {"default": "[1, 0]", "name": "class_labels", "optional": true}, {"default": "-1", "name": "SAMPLE_SIZE", "optional": true}, {"default": "0.1", "name": "TEST_SIZE", "optional": true}, {"default": "0.75", "name": "TRAIN_VAL_SPLIT", "optional": true}, {"default": "1", "name": "RNG", "optional": true}, {"default": "{\"classifier\": \"lightgbm.sklearn.LGBMClassifier\", \"boosting_type\": \"gbdt\", \"num_leaves\": 300, \"max_depth\": 50, \"learning_rate\": 0.1, \"n_estimators\": 300, \"objective\": \"binary\", \"scale_pos_weight\": 1, \"min_split_gain\": 0.0, \"min_child_samples\": 20, \"subsample\": 1, \"colsample_bytree\": 1, \"reg_alpha\": 0, \"reg_lambda\": 1, \"n_jobs\": 16, \"silent\": true, \"importance_type\": \"split\", \"random_state\": 1}", "name": "class_params", "optional": true}, {"default": "{\"early_stopping_rounds\": 10, \"verbose\": false, \"callbacks\": \"lightgbm.callback.record_evaluation\"}", "name": "fit_params", "optional": true}], "name": "Network Operations Demo"}
+  "generateName": |-
+    network-operations-demo-
+"spec":
+  "arguments":
+    "parameters":
+    - "name": |-
+        df_artifact
+      "value": |-
+        /User/demo-network-operations/data/metrics.pq
+    - "name": |-
+        metrics
+      "value": |-
+        ["cpu_utilization"]
+    - "name": |-
+        labels
+      "value": |-
+        ["is_error"]
+    - "name": |-
+        metric_aggs
+      "value": |-
+        ["mean", "sum"]
+    - "name": |-
+        label_aggs
+      "value": |-
+        ["max"]
+    - "name": |-
+        suffix
+      "value": |-
+        daily
+    - "name": |-
+        append_to_df
+      "value": |-
+        True
+    - "name": |-
+        window
+      "value": |-
+        5
+    - "name": |-
+        center
+      "value": |-
+        True
+    - "name": |-
+        save_to
+      "value": |-
+        /User/demo-network-operations/data/aggregate.pq
+    - "name": |-
+        describe_table
+      "value": |-
+        summary
+    - "name": |-
+        label_column
+      "value": |-
+        is_error
+    - "name": |-
+        class_labels
+      "value": |-
+        [1, 0]
+    - "name": |-
+        SAMPLE_SIZE
+      "value": |-
+        -1
+    - "name": |-
+        TEST_SIZE
+      "value": |-
+        0.1
+    - "name": |-
+        TRAIN_VAL_SPLIT
+      "value": |-
+        0.75
+    - "name": |-
+        RNG
+      "value": |-
+        1
+    - "name": |-
+        class_params
+      "value": |-
+        {'classifier': 'lightgbm.sklearn.LGBMClassifier', 'boosting_type': 'gbdt', 'num_leaves': 300, 'max_depth': 50, 'learning_rate': 0.1, 'n_estimators': 300, 'objective': 'binary', 'scale_pos_weight': 1, 'min_split_gain': 0.0, 'min_child_samples': 20, 'subsample': 1, 'colsample_bytree': 1, 'reg_alpha': 0, 'reg_lambda': 1, 'n_jobs': 16, 'silent': True, 'importance_type': 'split', 'random_state': 1}
+    - "name": |-
+        fit_params
+      "value": |-
+        {'early_stopping_rounds': 10, 'verbose': False, 'callbacks': 'lightgbm.callback.record_evaluation'}
+  "entrypoint": |-
+    network-operations-demo
+  "serviceAccountName": |-
+    pipeline-runner
+  "templates":
+  - "container":
+      "command":
+      - |-
+        python
+      - |-
+        -m
+      - |-
+        mlrun
+      - |-
+        run
+      - |-
+        --kfp
+      - |-
+        --from-env
+      - |-
+        --workflow
+      - |-
+        {{workflow.uid}}
+      - |-
+        --name
+      - |-
+        aggregate
+      - |-
+        -p
+      - |-
+        df_artifact={{inputs.parameters.df_artifact}}
+      - |-
+        -p
+      - |-
+        metrics={{inputs.parameters.metrics}}
+      - |-
+        -p
+      - |-
+        labels={{inputs.parameters.labels}}
+      - |-
+        -p
+      - |-
+        metric_aggs={{inputs.parameters.metric_aggs}}
+      - |-
+        -p
+      - |-
+        label_aggs={{inputs.parameters.label_aggs}}
+      - |-
+        -p
+      - |-
+        suffix={{inputs.parameters.suffix}}
+      - |-
+        -p
+      - |-
+        append_to_df={{inputs.parameters.append_to_df}}
+      - |-
+        -p
+      - |-
+        window={{inputs.parameters.window}}
+      - |-
+        -p
+      - |-
+        center={{inputs.parameters.center}}
+      - |-
+        -p
+      - |-
+        save_to={{inputs.parameters.save_to}}
+      - |-
+        -o
+      - |-
+        aggregate
+      - |-
+        --handler
+      - |-
+        aggregate
+      - |-
+        --runtime
+      - |-
+        {'kind': 'job', 'metadata': {'name': 'aggregate', 'tag': '', 'hash': '3ded373032b9e1e296b72793acd9092787201c14', 'project': 'network-operations', 'categories': []}, 'spec': {'command': '/User/demo-network-operations/src/aggregate.py', 'args': [], 'image': '', 'volumes': [{'flexVolume': {'driver': 'v3io/fuse', 'options': {'accessKey': '48bfe2e0-9870-4d11-9924-b20502a85363', 'container': 'users', 'subPath': '/admin'}}, 'name': 'v3io'}], 'volume_mounts': [{'mountPath': '/User', 'name': 'v3io'}], 'env': [{'name': 'V3IO_API', 'value': ''}, {'name': 'V3IO_USERNAME', 'value': ''}, {'name': 'V3IO_ACCESS_KEY', 'value': ''}, {'name': 'V3IO_API', 'value': 'v3io-webapi.default-tenant.svc:8081'}, {'name': 'V3IO_USERNAME', 'value': 'admin'}, {'name': 'V3IO_ACCESS_KEY', 'value': '48bfe2e0-9870-4d11-9924-b20502a85363'}], 'description': '', 'build': {'source': 'http://github.com/zilbermanor/demo-network-operations#refs/heads/master', 'commands': [], 'code_origin': '#22e21274be22a767435c8f3dd21169d8912e99cc'}}}
+      - |-
+        --image
+      - |-
+        docker-registry.default-tenant.app.cnyidfihnjsz.iguazio-cd0.com:80/mlrun/func-default-aggregate-latest
+      - ""
+      "env":
+      - "name": |-
+          MLRUN_DBPATH
+        "value": |-
+          http://mlrun-api:8080
+      "image": |-
+        mlrun/mlrun:0.4.6
+    "inputs":
+      "parameters":
+      - "name": |-
+          append_to_df
+      - "name": |-
+          center
+      - "name": |-
+          df_artifact
+      - "name": |-
+          label_aggs
+      - "name": |-
+          labels
+      - "name": |-
+          metric_aggs
+      - "name": |-
+          metrics
+      - "name": |-
+          save_to
+      - "name": |-
+          suffix
+      - "name": |-
+          window
+    "name": |-
+      aggregate
+    "outputs":
+      "artifacts":
+      - "name": |-
+          mlpipeline-ui-metadata
+        "path": |-
+          /mlpipeline-ui-metadata.json
+      - "name": |-
+          mlpipeline-metrics
+        "path": |-
+          /mlpipeline-metrics.json
+      - "name": |-
+          aggregate-aggregate
+        "path": |-
+          /tmp/aggregate
+      "parameters":
+      - "name": |-
+          aggregate-aggregate
+        "valueFrom":
+          "path": |-
+            /tmp/aggregate
+  - "container":
+      "command":
+      - |-
+        python
+      - |-
+        -m
+      - |-
+        mlrun
+      - |-
+        deploy
+      - |-
+        {'kind': 'remote', 'metadata': {'name': 'failure-predictor', 'project': 'network-operations', 'categories': []}, 'spec': {'command': '', 'args': [], 'image': '', 'description': '', 'volumes': [{'flexVolume': {'driver': 'v3io/fuse', 'options': {'accessKey': '48bfe2e0-9870-4d11-9924-b20502a85363', 'container': 'users', 'subPath': '/admin'}}, 'name': 'v3io'}], 'volume_mounts': [{'mountPath': '/User', 'name': 'v3io'}], 'env': [{'name': 'MODEL_CLASS', 'value': 'ClassifierModel'}, {'name': 'ENABLE_EXPLAINER', 'value': 'False'}, {'name': 'V3IO_API', 'value': 'v3io-webapi.default-tenant.svc:8081'}, {'name': 'V3IO_USERNAME', 'value': 'admin'}, {'name': 'V3IO_ACCESS_KEY', 'value': '48bfe2e0-9870-4d11-9924-b20502a85363'}], 'config': {'spec.triggers.http': {'kind': 'http', 'maxWorkers': 8, 'attributes': {'ingresses': {}}, 'annotations': {}}}, 'base_spec': {'apiVersion': 'nuclio.io/v1', 'kind': 'Function', 'metadata': {'annotations': {'nuclio.io/generated_by': 'function generated at 13-03-2020 by admin from /User/demo-network-operations/notebooks/model-server.ipynb'}, 'labels': {}, 'name': 'failure-predictor'}, 'spec': {'build': {'baseImage': 'mlrun/mlrun:dev', 'commands': ['python -m pip install numpy cloudpickle', 'python -m pip install lightgbm'], 'functionSourceCode': 'IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlciBvbiAyMDIwLTAzLTEzIDA3OjEzCgppbXBvcnQgb3MKZnJvbSBjbG91ZHBpY2tsZSBpbXBvcnQgbG9hZAppbXBvcnQgbnVtcHkgYXMgbnAKZnJvbSB0eXBpbmcgaW1wb3J0IExpc3QKCmNsYXNzIENsYXNzaWZpZXJNb2RlbCgpOgogICAgZGVmIF9faW5pdF9fKHNlbGYsIG5hbWU6IHN0ciwgbW9kZWxfZGlyOiBzdHIpOgogICAgICAgIHNlbGYubmFtZSA9IG5hbWUKICAgICAgICBzZWxmLm1vZGVsX2RpciA9IG1vZGVsX2RpcgogICAgICAgIHNlbGYuY2xhc3NpZmllciA9IE5vbmUKICAgICAgICBzZWxmLnJlYWR5ID0gRmFsc2UKCiAgICBkZWYgbG9hZChzZWxmKToKICAgICAgICAiIiJMb2FkIG1vZGVsIGZyb20gc3RvcmFnZS4KICAgICAgICAiIiIgICAgICAgIAogICAgICAgIHNlbGYuY2xhc3NpZmllciA9IGxvYWQob3BlbihzZWxmLm1vZGVsX2RpciwgJ3JiJykpCiAgICAgICAgc2VsZi5yZWFkeSA9IFRydWUKICAgICAgICAKICAgIGRlZiBwcmVwcm9jZXNzKHNlbGYsIHIpOgogICAgICAgIHJldHVybiByCiAgICAKICAgIGRlZiBwb3N0cHJvY2VzcyhzZWxmLCByKToKICAgICAgICByZXR1cm4gcgoKICAgIGRlZiBwcmVkaWN0KHNlbGYsIGJvZHk6IExpc3QpIC0+IExpc3Q6CiAgICAgICAgIiIiR2VuZXJhdGUgbW9kZWwgcHJlZGljdGlvbnMgZnJvbSBzYW1wbGUuCiAgICAgICAgCiAgICAgICAgOnBhcmFtIGJvZHkgOiBBIGxpc3Qgb2Ygb2JzZXJ2YXRpb25zLCBlYWNoIG9mIHdoaWNoIGlzIGFuIDEtZGltZW5zaW9uYWwgZmVhdHVyZSB2ZWN0b3IuCiAgICAgICAgICAgIAogICAgICAgIFJldHVybnMgbW9kZWwgcHJlZGljdGlvbnMgYXMgYSBgTGlzdGAsIG9uZSBmb3IgZWFjaCByb3cgaW4gdGhlIGBib2R5YCBpbnB1dCBgTGlzdGAuCiAgICAgICAgIiIiCiAgICAgICAgdHJ5OgogICAgICAgICAgICBpZiBub3Qgc2VsZi5yZWFkeToKICAgICAgICAgICAgICAgIHNlbGYubG9hZCgpCiAgICAgICAgICAgIGZlYXRzID0gbnAuYXNhcnJheShib2R5WydpbnN0YW5jZXMnXSkKICAgICAgICAgICAgcmVzdWx0OiBucC5uZGFycmF5ID0gc2VsZi5jbGFzc2lmaWVyLnByZWRpY3QoZmVhdHMpCiAgICAgICAgICAgIHJldHVybiByZXN1bHQudG9saXN0KCkKICAgICAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgICAgIHJhaXNlIEV4Y2VwdGlvbihmIkZhaWxlZCB0byBwcmVkaWN0IHtlfSIpCgoKZnJvbSBtbHJ1bi5ydW50aW1lcyBpbXBvcnQgbnVjbGlvX2luaXRfaG9vawpkZWYgaW5pdF9jb250ZXh0KGNvbnRleHQpOgogICAgbnVjbGlvX2luaXRfaG9vayhjb250ZXh0LCBnbG9iYWxzKCksICdzZXJ2aW5nJykKCmRlZiBoYW5kbGVyKGNvbnRleHQsIGV2ZW50KToKICAgIHJldHVybiBjb250ZXh0Lm1scnVuX2hhbmRsZXIoY29udGV4dCwgZXZlbnQpCg==', 'noBaseImagesPull': True}, 'env': [], 'handler': 'model-server:handler', 'runtime': 'python:3.6', 'volumes': []}}, 'source': '', 'function_kind': 'serving'}}
+      - |-
+        -p
+      - |-
+        nuclio-serving
+      - |-
+        -m
+      - |-
+        predictor={{inputs.parameters.train-model}}
+      "image": |-
+        mlrun/mlrun:0.4.6
+    "inputs":
+      "parameters":
+      - "name": |-
+          train-model
+    "name": |-
+      deploy-failure-predictor
+    "outputs":
+      "artifacts":
+      - "name": |-
+          deploy-failure-predictor-endpoint
+        "path": |-
+          /tmp/output
+  - "dag":
+      "tasks":
+      - "arguments":
+          "parameters":
+          - "name": |-
+              append_to_df
+            "value": |-
+              {{inputs.parameters.append_to_df}}
+          - "name": |-
+              center
+            "value": |-
+              {{inputs.parameters.center}}
+          - "name": |-
+              df_artifact
+            "value": |-
+              {{inputs.parameters.df_artifact}}
+          - "name": |-
+              label_aggs
+            "value": |-
+              {{inputs.parameters.label_aggs}}
+          - "name": |-
+              labels
+            "value": |-
+              {{inputs.parameters.labels}}
+          - "name": |-
+              metric_aggs
+            "value": |-
+              {{inputs.parameters.metric_aggs}}
+          - "name": |-
+              metrics
+            "value": |-
+              {{inputs.parameters.metrics}}
+          - "name": |-
+              save_to
+            "value": |-
+              {{inputs.parameters.save_to}}
+          - "name": |-
+              suffix
+            "value": |-
+              {{inputs.parameters.suffix}}
+          - "name": |-
+              window
+            "value": |-
+              {{inputs.parameters.window}}
+        "name": |-
+          aggregate
+        "template": |-
+          aggregate
+      - "arguments":
+          "parameters":
+          - "name": |-
+              train-model
+            "value": |-
+              {{tasks.train.outputs.parameters.train-model}}
+        "dependencies":
+        - |-
+          train
+        "name": |-
+          deploy-failure-predictor
+        "template": |-
+          deploy-failure-predictor
+      - "arguments":
+          "parameters":
+          - "name": |-
+              aggregate-aggregate
+            "value": |-
+              {{tasks.aggregate.outputs.parameters.aggregate-aggregate}}
+          - "name": |-
+              class_labels
+            "value": |-
+              {{inputs.parameters.class_labels}}
+          - "name": |-
+              describe_table
+            "value": |-
+              {{inputs.parameters.describe_table}}
+          - "name": |-
+              label_column
+            "value": |-
+              {{inputs.parameters.label_column}}
+        "dependencies":
+        - |-
+          aggregate
+        "name": |-
+          sum
+        "template": |-
+          sum
+      - "arguments":
+          "parameters":
+          - "name": |-
+              RNG
+            "value": |-
+              {{inputs.parameters.RNG}}
+          - "name": |-
+              SAMPLE_SIZE
+            "value": |-
+              {{inputs.parameters.SAMPLE_SIZE}}
+          - "name": |-
+              TEST_SIZE
+            "value": |-
+              {{inputs.parameters.TEST_SIZE}}
+          - "name": |-
+              TRAIN_VAL_SPLIT
+            "value": |-
+              {{inputs.parameters.TRAIN_VAL_SPLIT}}
+          - "name": |-
+              aggregate-aggregate
+            "value": |-
+              {{tasks.aggregate.outputs.parameters.aggregate-aggregate}}
+          - "name": |-
+              class_params
+            "value": |-
+              {{inputs.parameters.class_params}}
+          - "name": |-
+              fit_params
+            "value": |-
+              {{inputs.parameters.fit_params}}
+          - "name": |-
+              label_column
+            "value": |-
+              {{inputs.parameters.label_column}}
+          - "name": |-
+              sum-scale_pos_weight
+            "value": |-
+              {{tasks.sum.outputs.parameters.sum-scale_pos_weight}}
+        "dependencies":
+        - |-
+          aggregate
+        - |-
+          sum
+        "name": |-
+          train
+        "template": |-
+          train
+    "inputs":
+      "parameters":
+      - "name": |-
+          RNG
+      - "name": |-
+          SAMPLE_SIZE
+      - "name": |-
+          TEST_SIZE
+      - "name": |-
+          TRAIN_VAL_SPLIT
+      - "name": |-
+          append_to_df
+      - "name": |-
+          center
+      - "name": |-
+          class_labels
+      - "name": |-
+          class_params
+      - "name": |-
+          describe_table
+      - "name": |-
+          df_artifact
+      - "name": |-
+          fit_params
+      - "name": |-
+          label_aggs
+      - "name": |-
+          label_column
+      - "name": |-
+          labels
+      - "name": |-
+          metric_aggs
+      - "name": |-
+          metrics
+      - "name": |-
+          save_to
+      - "name": |-
+          suffix
+      - "name": |-
+          window
+    "name": |-
+      network-operations-demo
+  - "container":
+      "command":
+      - |-
+        python
+      - |-
+        -m
+      - |-
+        mlrun
+      - |-
+        run
+      - |-
+        --kfp
+      - |-
+        --from-env
+      - |-
+        --workflow
+      - |-
+        {{workflow.uid}}
+      - |-
+        --name
+      - |-
+        sum
+      - |-
+        -p
+      - |-
+        key={{inputs.parameters.describe_table}}
+      - |-
+        -p
+      - |-
+        label_column={{inputs.parameters.label_column}}
+      - |-
+        -p
+      - |-
+        class_labels={{inputs.parameters.class_labels}}
+      - |-
+        -i
+      - |-
+        table={{inputs.parameters.aggregate-aggregate}}
+      - |-
+        -o
+      - |-
+        summary
+      - |-
+        -o
+      - |-
+        scale_pos_weight
+      - |-
+        --handler
+      - |-
+        table_summary
+      - |-
+        --runtime
+      - |-
+        {'kind': 'job', 'metadata': {'name': 'describe', 'tag': '', 'project': 'network-operations', 'categories': []}, 'spec': {'command': '', 'args': [], 'image': 'yjbds/mlrun-ml:v0.4.5', 'volumes': [{'flexVolume': {'driver': 'v3io/fuse', 'options': {'accessKey': '48bfe2e0-9870-4d11-9924-b20502a85363', 'container': 'users', 'subPath': '/admin'}}, 'name': 'v3io'}], 'volume_mounts': [{'mountPath': '/User', 'name': 'v3io'}], 'env': [{'name': 'V3IO_API', 'value': 'v3io-webapi.default-tenant.svc:8081'}, {'name': 'V3IO_USERNAME', 'value': 'admin'}, {'name': 'V3IO_ACCESS_KEY', 'value': '48bfe2e0-9870-4d11-9924-b20502a85363'}], 'description': '', 'build': {'functionSourceCode': 'IyBDb3B5cmlnaHQgMjAxOCBJZ3VhemlvCiMKIyBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsKIyB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNlIHdpdGggdGhlIExpY2Vuc2UuCiMgWW91IG1heSBvYnRhaW4gYSBjb3B5IG9mIHRoZSBMaWNlbnNlIGF0CiMKIyAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9MSUNFTlNFLTIuMAojCiMgVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZQojIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSBMaWNlbnNlIGlzIGRpc3RyaWJ1dGVkIG9uIGFuICJBUyBJUyIgQkFTSVMsCiMgV0lUSE9VVCBXQVJSQU5USUVTIE9SIENPTkRJVElPTlMgT0YgQU5ZIEtJTkQsIGVpdGhlciBleHByZXNzIG9yIGltcGxpZWQuCiMgU2VlIHRoZSBMaWNlbnNlIGZvciB0aGUgc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1pc3Npb25zIGFuZAojIGxpbWl0YXRpb25zIHVuZGVyIHRoZSBMaWNlbnNlLgppbXBvcnQgb3MKaW1wb3J0IG51bXB5IGFzIG5wCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdAppbXBvcnQgc2VhYm9ybiBhcyBzbnMKCmZyb20gbWxydW4uZXhlY3V0aW9uIGltcG9ydCBNTENsaWVudEN0eApmcm9tIG1scnVuLmRhdGFzdG9yZSBpbXBvcnQgRGF0YUl0ZW0KZnJvbSBtbHJ1bi5hcnRpZmFjdHMgaW1wb3J0IFBsb3RBcnRpZmFjdCwgVGFibGVBcnRpZmFjdAoKZnJvbSB5ZWxsb3dicmljay50YXJnZXQgaW1wb3J0IENsYXNzQmFsYW5jZQpmcm9tIHNrbGVhcm4ucHJlcHJvY2Vzc2luZyBpbXBvcnQgU3RhbmRhcmRTY2FsZXIKCmZyb20gdHlwaW5nIGltcG9ydCBJTywgQW55U3RyLCBVbmlvbiwgTGlzdCwgT3B0aW9uYWwKCnBkLnNldF9vcHRpb24oImRpc3BsYXkuZmxvYXRfZm9ybWF0IiwgbGFtYmRhIHg6ICIlLjJmIiAlIHgpCgpkZWYgX2djZl9jbGVhcihwbHQpOgogICAgcGx0LmNsYSgpCiAgICBwbHQuY2xmKCkKICAgIHBsdC5jbG9zZSgpIAoKZGVmIHRhYmxlX3N1bW1hcnkoCiAgICBjb250ZXh0OiBNTENsaWVudEN0eCwKICAgIHRhYmxlOiBVbmlvbltEYXRhSXRlbSwgc3RyXSwKICAgIGxhYmVsX2NvbHVtbjogc3RyLAogICAgY2xhc3NfbGFiZWxzOiBMaXN0W3N0cl0sCiAgICBrZXk6IHN0ciA9ICJ0YWJsZS1zdW1tYXJ5IiwKKSAtPiBOb25lOgogICAgIiIiU3VtbWFyaXplIGEgdGFibGUKCiAgICBUT0RPOiBtZXJnZSB3aXRoIGRhc2sgdmVyc2lvbgoKICAgIDpwYXJhbSBjb250ZXh0OiAgICAgICAgIHRoZSBmdW5jdGlvbiBjb250ZXh0CiAgICA6cGFyYW0gdGFibGU6ICAgICAgICAgICBwYW5kYXMgZGF0YWZyYW1lCiAgICA6cGFyYW0ga2V5OiAgICAgICAgICAgICBrZXkgb2YgdGFibGUgc3VtbWFyeSBpbiBhcnRpZmFjdCBzdG9yZQogICAgIiIiCiAgICBfZ2NmX2NsZWFyKHBsdCkKICAgIAogICAgYmFzZV9wYXRoID0gY29udGV4dC5hcnRpZmFjdF9wYXRoCiAgICBvcy5tYWtlZGlycyhiYXNlX3BhdGgsIGV4aXN0X29rPVRydWUpCiAgICBvcy5tYWtlZGlycyhiYXNlX3BhdGgrIi9wbG90cyIsIGV4aXN0X29rPVRydWUpCiAgICAKICAgIHRhYmxlID0gcGQucmVhZF9wYXJxdWV0KHN0cih0YWJsZSkpCiAgICBoZWFkZXIgPSB0YWJsZS5jb2x1bW5zLnZhbHVlcwogICAgCiAgICAjIHNldCBhIGZldyB2YWx1ZXMgdG8gTmFOIGp1c3QgZm9yIHRlc3RpbmcKICAgIHRhYmxlLmlsb2NbMTAwMDM6MTAwMTAsIDI6N10gPSBucC5OYU4KICAgIAogICAgIyBkZXNjcmliZSB0YWJsZQogICAgc3VtdGJsID0gdGFibGUuZGVzY3JpYmUoKQogICAgc3VtdGJsID0gc3VtdGJsLmFwcGVuZChsZW4odGFibGUuaW5kZXgpLXRhYmxlLmNvdW50KCksIGlnbm9yZV9pbmRleD1UcnVlKQogICAgc3VtdGJsLmluc2VydCgwLCAibWV0cmljIiwgWyJjb3VudCIsICJtZWFuIiwgInN0ZCIsICJtaW4iLCIyNSUiLCAiNTAlIiwgIjc1JSIsICJtYXgiLCAibmFucyJdKQogICAgCiAgICBzdW10YmwudG9fY3N2KG9zLnBhdGguam9pbihiYXNlX3BhdGgsIGtleSsiLmNzdiIpLCBpbmRleD1GYWxzZSkKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KGtleSwgbG9jYWxfcGF0aD1rZXkrIi5jc3YiKQoKICAgICMgcGxvdCBjbGFzcyBiYWxhbmNlLCByZWNvcmQgcmVsYXRpdmUgY2xhc3Mgd2VpZ2h0CiAgICBfZ2NmX2NsZWFyKHBsdCkKICAgIAogICAgbGFiZWxzID0gdGFibGUucG9wKGxhYmVsX2NvbHVtbikKICAgIGNsYXNzX2JhbGFuY2VfbW9kZWwgPSBDbGFzc0JhbGFuY2UobGFiZWxzPWNsYXNzX2xhYmVscykKICAgIGNsYXNzX2JhbGFuY2VfbW9kZWwuZml0KGxhYmVscykKICAgIAogICAgc2NhbGVfcG9zX3dlaWdodCA9IGNsYXNzX2JhbGFuY2VfbW9kZWwuc3VwcG9ydF9bMF0vY2xhc3NfYmFsYW5jZV9tb2RlbC5zdXBwb3J0X1sxXQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoInNjYWxlX3Bvc193ZWlnaHQiLCBmIntzY2FsZV9wb3Nfd2VpZ2h0OjAuMmZ9IikKCiAgICBjbGFzc19iYWxhbmNlX21vZGVsLnNob3cob3V0cGF0aD1vcy5wYXRoLmpvaW4oYmFzZV9wYXRoLCAicGxvdHMvaW1iYWxhbmNlLnBuZyIpKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoUGxvdEFydGlmYWN0KCJpbWJhbGFuY2UiLCBib2R5PXBsdC5nY2YoKSksIGxvY2FsX3BhdGg9InBsb3RzL2ltYmFsYW5jZS5odG1sIikKICAgIAogICAgIyBwbG90IGZlYXR1cmUgY29ycmVsYXRpb24KICAgIF9nY2ZfY2xlYXIocGx0KQogICAgdGJsY29yciA9IHRhYmxlLmNvcnIoKQogICAgYXggPSBwbHQuYXhlcygpCiAgICBzbnMuaGVhdG1hcCh0Ymxjb3JyLCBheD1heCwgYW5ub3Q9RmFsc2UsIGNtYXA9cGx0LmNtLlJlZHMpCiAgICBheC5zZXRfdGl0bGUoImZlYXR1cmVzIGNvcnJlbGF0aW9uIikKICAgIHBsdC5zYXZlZmlnKG9zLnBhdGguam9pbihiYXNlX3BhdGgsICJwbG90cy9jb3JyLnBuZyIpKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoUGxvdEFydGlmYWN0KCJjb3JyZWxhdGlvbiIsICBib2R5PXBsdC5nY2YoKSksIGxvY2FsX3BhdGg9InBsb3RzL2NvcnIuaHRtbCIpCiAgICAKICAgICMgcGxvdCBoaXN0b2dyYW0KICAgIF9nY2ZfY2xlYXIocGx0KQogICAgYXggPSBwbHQuYXhlcygpCiAgICBheC5zZXRfeXRpY2tsYWJlbHMoW10pCiAgICBheC5zZXRfeHRpY2tsYWJlbHMoW10pCiAgICBmaWdhcnJheSA9IHRhYmxlLmhpc3QoYXg9YXgsIHlsYWJlbHNpemU9NSwgeGxhYmVsc2l6ZT01KQogICAgZm9yIHJvdyBpbiBmaWdhcnJheToKICAgICAgICBmb3IgZiBpbiByb3c6CiAgICAgICAgICAgIGYuc2V0X3RpdGxlKCIiKQogICAgYXguc2V0X3RpdGxlKCJmZWF0dXJlcyBoaXN0b2dyYW0iKQogICAgcGx0LnNhdmVmaWcob3MucGF0aC5qb2luKGJhc2VfcGF0aCwgInBsb3RzL2hpc3QucG5nIikpCiAgICBjb250ZXh0LmxvZ19hcnRpZmFjdChQbG90QXJ0aWZhY3QoImhpc3RvZ3JhbXMiLCAgYm9keT1wbHQuZ2NmKCkpLCBsb2NhbF9wYXRoPSJwbG90cy9oaXN0Lmh0bWwiKQogICAKICAgIF9nY2ZfY2xlYXIocGx0KQo=', 'source': 'http://github.com/zilbermanor/demo-network-operations#refs/heads/master', 'commands': [], 'code_origin': '#22e21274be22a767435c8f3dd21169d8912e99cc'}}}
+      - |-
+        --image
+      - |-
+        yjbds/mlrun-ml:v0.4.5
+      - ""
+      "env":
+      - "name": |-
+          MLRUN_DBPATH
+        "value": |-
+          http://mlrun-api:8080
+      "image": |-
+        mlrun/mlrun:0.4.6
+    "inputs":
+      "parameters":
+      - "name": |-
+          aggregate-aggregate
+      - "name": |-
+          class_labels
+      - "name": |-
+          describe_table
+      - "name": |-
+          label_column
+    "name": |-
+      sum
+    "outputs":
+      "artifacts":
+      - "name": |-
+          mlpipeline-ui-metadata
+        "path": |-
+          /mlpipeline-ui-metadata.json
+      - "name": |-
+          mlpipeline-metrics
+        "path": |-
+          /mlpipeline-metrics.json
+      - "name": |-
+          sum-scale_pos_weight
+        "path": |-
+          /tmp/scale_pos_weight
+      - "name": |-
+          sum-summary
+        "path": |-
+          /tmp/summary
+      "parameters":
+      - "name": |-
+          sum-scale_pos_weight
+        "valueFrom":
+          "path": |-
+            /tmp/scale_pos_weight
+  - "container":
+      "command":
+      - |-
+        python
+      - |-
+        -m
+      - |-
+        mlrun
+      - |-
+        run
+      - |-
+        --kfp
+      - |-
+        --from-env
+      - |-
+        --workflow
+      - |-
+        {{workflow.uid}}
+      - |-
+        --name
+      - |-
+        train
+      - |-
+        -p
+      - |-
+        sample={{inputs.parameters.SAMPLE_SIZE}}
+      - |-
+        -p
+      - |-
+        label_column={{inputs.parameters.label_column}}
+      - |-
+        -p
+      - |-
+        test_size={{inputs.parameters.TEST_SIZE}}
+      - |-
+        -p
+      - |-
+        train_val_split={{inputs.parameters.TRAIN_VAL_SPLIT}}
+      - |-
+        -p
+      - |-
+        rng={{inputs.parameters.RNG}}
+      - |-
+        -p
+      - |-
+        class_params={{inputs.parameters.class_params}}
+      - |-
+        -p
+      - |-
+        fit_params={{inputs.parameters.fit_params}}
+      - |-
+        -i
+      - |-
+        data_key={{inputs.parameters.aggregate-aggregate}}
+      - |-
+        -i
+      - |-
+        scale_pos_weigth={{inputs.parameters.sum-scale_pos_weight}}
+      - |-
+        -o
+      - |-
+        model
+      - |-
+        -o
+      - |-
+        test-set
+      - |-
+        --handler
+      - |-
+        train_model
+      - |-
+        --runtime
+      - |-
+        {'kind': 'job', 'metadata': {'name': 'train-lgbm', 'tag': '', 'project': 'network-operations', 'categories': []}, 'spec': {'command': '', 'args': [], 'image': 'yjbds/mlrun-ml:v0.4.5', 'volumes': [{'flexVolume': {'driver': 'v3io/fuse', 'options': {'accessKey': '48bfe2e0-9870-4d11-9924-b20502a85363', 'container': 'users', 'subPath': '/admin'}}, 'name': 'v3io'}], 'volume_mounts': [{'mountPath': '/User', 'name': 'v3io'}], 'env': [{'name': 'V3IO_API', 'value': 'v3io-webapi.default-tenant.svc:8081'}, {'name': 'V3IO_USERNAME', 'value': 'admin'}, {'name': 'V3IO_ACCESS_KEY', 'value': '48bfe2e0-9870-4d11-9924-b20502a85363'}], 'description': '', 'build': {'functionSourceCode': 'aW1wb3J0IG9zCmltcG9ydCBqc29uCmltcG9ydCBpbXBvcnRsaWIKZnJvbSBjbG91ZHBpY2tsZSBpbXBvcnQgZHVtcAoKaW1wb3J0IG51bXB5IGFzIG5wCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IHB5YXJyb3cucGFycXVldCBhcyBwcQppbXBvcnQgcHlhcnJvdyBhcyBwYQoKI2Zyb20gc2tsZWFybi5wcmVwcm9jZXNzaW5nIGltcG9ydCBTdGFuZGFyZFNjYWxlcgpmcm9tIHNrbGVhcm4ubW9kZWxfc2VsZWN0aW9uIGltcG9ydCB0cmFpbl90ZXN0X3NwbGl0CmZyb20gc2tsZWFybi5tZXRyaWNzIGltcG9ydCAocm9jX2F1Y19zY29yZSwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZjFfc2NvcmUsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIGF2ZXJhZ2VfcHJlY2lzaW9uX3Njb3JlLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICByb2NfY3VydmUsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbmZ1c2lvbl9tYXRyaXgpCgppbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0CmltcG9ydCBzZWFib3JuIGFzIHNucwoKZnJvbSB5ZWxsb3dicmljay5jbGFzc2lmaWVyIGltcG9ydCBDb25mdXNpb25NYXRyaXgKCmZyb20gdHlwaW5nIGltcG9ydCBPcHRpb25hbCwgVW5pb24sIExpc3QKCmZyb20gbWxydW4uZXhlY3V0aW9uIGltcG9ydCBNTENsaWVudEN0eApmcm9tIG1scnVuLmRhdGFzdG9yZSBpbXBvcnQgRGF0YUl0ZW0KZnJvbSBtbHJ1bi5hcnRpZmFjdHMgaW1wb3J0IFBsb3RBcnRpZmFjdCwgVGFibGVBcnRpZmFjdAoKaW1wb3J0IHdhcm5pbmdzCndhcm5pbmdzLnNpbXBsZWZpbHRlcihhY3Rpb249Imlnbm9yZSIsIGNhdGVnb3J5PUZ1dHVyZVdhcm5pbmcpCgpkZWYgX2djZl9jbGVhcihwbHQpOgogICAgcGx0LmNsYSgpCiAgICBwbHQuY2xmKCkKICAgIHBsdC5jbG9zZSgpIAoKZGVmIHRyYWluX21vZGVsKAogICAgY29udGV4dDogTUxDbGllbnRDdHgsCiAgICBkYXRhX2tleTogVW5pb25bRGF0YUl0ZW0sIHN0cl0sCiAgICBzYW1wbGU6IGludCwKICAgIGxhYmVsX2NvbHVtbjogc3RyLAogICAgdGVzdF9zaXplOiBmbG9hdCA9IDAuMSwKICAgIHRyYWluX3ZhbF9zcGxpdDogZmxvYXQgPSAwLjc1LAogICAgcm5nOiBpbnQgPSAxLAogICAgY2xhc3NfcGFyYW1zID0ge30sCiAgICBmaXRfcGFyYW1zID0ge30KKSAtPiBOb25lOgogICAgIiIidHJhaW4gYSBjbGFzc2lmaWVyLgoKICAgIDpwYXJhbSBjb250ZXh0OiAgICAgICAgIHRoZSBmdW5jdGlvbiBjb250ZXh0CiAgICA6cGFyYW0gc3JjX2ZpbGU6ICAgICAgICAoInJhdyIpIG5hbWUgb2YgcmF3IGRhdGEgZmlsZQogICAgOnBhcmFtIHNhbXBsZTogICAgICAgICAgU2VsZWN0cyB0aGUgZmlyc3QgbiByb3dzLCBvciBzZWxlY3QgYSBzYW1wbGUgc3RhcnRpbmcKICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZyb20gdGhlIGZpcnN0LiBJZiBuZWdhdGl2ZSA8LTEsIHNlbGVjdCBhIHJhbmRvbSBzYW1wbGUKICAgIDpwYXJhbSBsYWJlbF9jb2x1bW46ICAgIGdyb3VuZC10cnV0aCAoeSkgbGFiZWxzCiAgICA6cGFyYW0gdGVzdF9zaXplOiAgICAgICAoMC4xKSB0ZXN0IHNldCBzaXplCiAgICA6cGFyYW0gdHJhaW5fdmFsX3NwbGl0OiAoMC43NSkgT25jZSB0aGUgdGVzdCBzZXQgaGFzIGJlZW4gcmVtb3ZlZCB0aGUgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB0cmFpbmluZyBzZXQgZ2V0cyB0aGlzIHByb3BvcnRpb24uCiAgICA6cGFyYW0gcm5nOiAgICAgICAgICAgICAoMSkgc2tsZWFybiBybmcgc2VlZAogICAgOnBhcmFtIGNsYXNzX3BhcmFtczogICAgc2Npa2l0LWxlYXJuIGNsYXNzaWZpZXIgcGFyYW1zCiAgICA6cGFyYW0gZml0X3BhcmFtczogICAgICBzY2lraXQtbGVhcm4gZml0IHBhcmFtZXRlcnMKICAgICIiIgogICAgYmFzZV9wYXRoID0gY29udGV4dC5hcnRpZmFjdF9wYXRoCiAgICBvcy5tYWtlZGlycyhiYXNlX3BhdGgsIGV4aXN0X29rPVRydWUpCiAgICBvcy5tYWtlZGlycyhiYXNlX3BhdGgrIi9tb2RlbHMiLCBleGlzdF9vaz1UcnVlKQogICAgb3MubWFrZWRpcnMoYmFzZV9wYXRoKyIvcGxvdHMiLCBleGlzdF9vaz1UcnVlKQoKICAgIAogICAgc3JjZmlsZXBhdGggPSBzdHIoZGF0YV9rZXkpCiAgICAKICAgICMgZ2V0IGFsbCBkYXRhIG9yIGEgc2FtcGxlCiAgICBpZiAoc2FtcGxlID09IC0xKSBvciAoc2FtcGxlID49IDEpOgogICAgICAgICMgZ2V0IGFsbCByb3dzLCBvciBjb250aWd1b3VzIHNhbXBsZSBzdGFydGluZyBhdCByb3cgMS4KICAgICAgICByYXcgPSBwcS5yZWFkX3RhYmxlKHNyY2ZpbGVwYXRoKS50b19wYW5kYXMoKS5kcm9wbmEoKQogICAgICAgIGxhYmVscyA9IHJhdy5wb3AobGFiZWxfY29sdW1uKQogICAgICAgIHJhdyA9IHJhdy5pbG9jWzpzYW1wbGUsIDpdCiAgICAgICAgbGFiZWxzID0gbGFiZWxzLmlsb2NbOnNhbXBsZV0KICAgIGVsc2U6CiAgICAgICAgIyBncmFiIGEgcmFuZG9tIHNhbXBsZQogICAgICAgIHJhdyA9IHBxLnJlYWRfdGFibGUoc3JjZmlsZXBhdGgpLnRvX3BhbmRhcygpLmRyb3BuYSgpLnNhbXBsZShzYW1wbGUqLTEpCiAgICAgICAgbGFiZWxzID0gcmF3LnBvcChsYWJlbF9jb2x1bW4pCgogICAgIyB0aGlzIHVzZWQgYnkgcGxvdHRpbmcgbWV0aG9kcwogICAgY29udGV4dC5oZWFkZXIgPSByYXcuY29sdW1ucy52YWx1ZXMKICAgIAogICAgIyBkb3VibGUgc3BsaXQgdG8gZ2VuZXJhdGUgMyBkYXRhIHNldHM6IHRyYWluLCB2YWxpZGF0aW9uIGFuZCB0ZXN0CiAgICAjIHdpdGggeHRlc3QseXRlc3Qgc2V0IGFzaWRlCiAgICB4LCB4dGVzdCwgeSwgeXRlc3QgPSB0cmFpbl90ZXN0X3NwbGl0KHJhdy52YWx1ZXMsIGxhYmVscy52YWx1ZXMsIHRlc3Rfc2l6ZT10ZXN0X3NpemUsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByYW5kb21fc3RhdGU9cm5nKQogICAKICAgIHh0cmFpbiwgeHZhbGlkLCB5dHJhaW4sIHl2YWxpZCA9IHRyYWluX3Rlc3Rfc3BsaXQoeCwgeSwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRyYWluX3NpemU9dHJhaW5fdmFsX3NwbGl0LCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmFuZG9tX3N0YXRlPXJuZykKICAgIAogICAgZmlsZXBhdGggPSBvcy5wYXRoLmpvaW4oYmFzZV9wYXRoLCAidGVzdC1zZXQuY3N2IikKICAgIHBkLmNvbmNhdChbcGQuRGF0YUZyYW1lKGRhdGE9eHRlc3QsIGNvbHVtbnM9IGNvbnRleHQuaGVhZGVyKSwgCiAgICAgICAgICAgICAgIHBkLkRhdGFGcmFtZShkYXRhPXl0ZXN0LCBjb2x1bW5zPVsibGFiZWxzIl0pXSwgYXhpcz0xKS50b19jc3YoZmlsZXBhdGgsIGluZGV4PUZhbHNlKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoInRlc3Qtc2V0IiwgbG9jYWxfcGF0aD0idGVzdC1zZXQuY3N2IikgICAKICAgIAogICAgIyBjcmVhdGUgQ2xhc3NpZmllckNsYXNzIGZyb20gc3RyaW5nIGFuZCBpbnN0YW50aWF0ZQogICAgY2xhc3NpZmllciA9IGNsYXNzX3BhcmFtcy5wb3AoImNsYXNzaWZpZXIiLCBOb25lKQogICAgc3BsaXRzID0gY2xhc3NpZmllci5zcGxpdCgiLiIpCiAgICBjbGZjbGFzcyA9IHNwbGl0c1stMV0KICAgIHBrZ19tb2R1bGUgPSBzcGxpdHNbOi0xXQogICAgQ2xhc3NpZmllcmZDbGFzcyA9IGdldGF0dHIoaW1wb3J0bGliLmltcG9ydF9tb2R1bGUoIi4iLmpvaW4ocGtnX21vZHVsZSkpLCBjbGZjbGFzcykKCiAgICAjIGNyZWF0ZSBjYWxsYmFja3MgZnJvbSBzdHJpbmdzIGFuZCBpbnN0YW50aWF0ZSB3aXRoIHBhcmFtZXRlciBgZXZhbHNfcmVzdWx0YAogICAgc3BsaXRzID0gZml0X3BhcmFtcy5wb3AoImNhbGxiYWNrcyIsIE5vbmUpLnNwbGl0KCIuIikKICAgIHBrZ19tb2R1bGUgPSAiLiIuam9pbihzcGxpdHNbOi0xXSkKICAgIGNiX2ZuYW1lID0gc3BsaXRzWy0xXQogICAgcGtnX21vZHVsZSA9IF9faW1wb3J0X18ocGtnX21vZHVsZSwgZnJvbWxpc3Q9W2NiX2ZuYW1lXSkKICAgIGV2YWxzX3Jlc3VsdCA9IGRpY3QoKQogICAgY2FsbGJhY2tzID0gW2dldGF0dHIocGtnX21vZHVsZSwgY2JfZm5hbWUpKGV2YWxzX3Jlc3VsdCldCiAgICAKICAgIG1vZGVsID0gIENsYXNzaWZpZXJmQ2xhc3MoKipjbGFzc19wYXJhbXMpCiAgICAKICAgIG1vZGVsLmZpdCh4dHJhaW4sCiAgICAgICAgICAgICB5dHJhaW4sCiAgICAgICAgICAgICBldmFsX3NldD1bKHh0cmFpbiwgeXRyYWluKSwgKHh2YWxpZCwgeXZhbGlkKV0sCiAgICAgICAgICAgICBldmFsX21ldHJpYz0iYXVjIiwKICAgICAgICAgICAgIGNhbGxiYWNrcz1jYWxsYmFja3MsCiAgICAgICAgICAgICAqKmZpdF9wYXJhbXMpCiAgICAKICAgIGR1bXAobW9kZWwsIG9wZW4ob3MucGF0aC5qb2luKGJhc2VfcGF0aCwgIm1vZGVscy9tb2RlbC5wa2wiKSwgIndiIikpCiAgICAKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KCJtb2RlbCIsIGxvY2FsX3BhdGg9Im1vZGVscy9tb2RlbC5wa2wiKQogICAgCiAgICAjIGNvbXB1dGUgdmFsaWRhdGlvbiBtZXRyaWNzCiAgICB5cHJlZCA9IG1vZGVsLnByZWRpY3QoeHZhbGlkKQogICAgeV9zY29yZSA9IG1vZGVsLnByZWRpY3RfcHJvYmEoeHZhbGlkKQogICAgYXZlcmFnZV9wcmVjaXNpb24gPSBhdmVyYWdlX3ByZWNpc2lvbl9zY29yZSh5dmFsaWQsIHlfc2NvcmVbOiwxXSkKCiAgICBjb250ZXh0LmxvZ19yZXN1bHQoZiJhY2N1cmFjeSIsIGZsb2F0KG1vZGVsLnNjb3JlKHh2YWxpZCwgeXZhbGlkKSkpCiAgICBjb250ZXh0LmxvZ19yZXN1bHQoZiJyb2NhdWMiLCByb2NfYXVjX3Njb3JlKHl2YWxpZCwgeV9zY29yZVs6LDFdKSkKICAgIGNvbnRleHQubG9nX3Jlc3VsdChmImYxX3Njb3JlIiwgZjFfc2NvcmUoeXZhbGlkLCB5cHJlZCkpCiAgICBjb250ZXh0LmxvZ19yZXN1bHQoZiJhdmdfcHJlY3Njb3JlIiwgYXZlcmFnZV9wcmVjaXNpb24pCiAgICAKICAgICMgcGxvdCBST0MgdXNpbmcgdmFsaWRhdGlvbiBzZXQKICAgIHBsb3Rfcm9jKGNvbnRleHQsIAogICAgICAgICAgICAgeXZhbGlkLCAKICAgICAgICAgICAgIHlfc2NvcmVbOiwxXSwgCiAgICAgICAgICAgICBrZXk9InJvYyIpCiAgICAKICAgICMgcGxvdCB0cmFpbmluZyBoaXN0b3J5IG1ldHJpY3MsIHNhdmUgYW5kIGxvZzoKICAgIGlmICJ0cmFpbmluZyIgaW4gZXZhbHNfcmVzdWx0OgogICAgICAgIHRyYWluX2F1YyA9IG5wLmFzYXJyYXkoZXZhbHNfcmVzdWx0WyJ0cmFpbmluZyJdWyJhdWMiXSwgZHR5cGU9bnAuZmxvYXQpCiAgICAgICAgdHJhaW5fbG9nbG9zcyA9IG5wLmFzYXJyYXkoZXZhbHNfcmVzdWx0WyJ0cmFpbmluZyJdWyJiaW5hcnlfbG9nbG9zcyJdLCBkdHlwZT1ucC5mbG9hdCkKICAgICAgICB2YWxfYXVjID0gbnAuYXNhcnJheShldmFsc19yZXN1bHRbInZhbGlkXzEiXVsiYXVjIl0sIGR0eXBlPW5wLmZsb2F0KQogICAgICAgIHZhbF9sb2dsb3NzID0gbnAuYXNhcnJheShldmFsc19yZXN1bHRbInZhbGlkXzEiXVsiYmluYXJ5X2xvZ2xvc3MiXSwgZHR5cGU9bnAuZmxvYXQpCiAgICAgICAgCiAgICAKICAgIHBsb3RfdmFsaWRhdGlvbihjb250ZXh0LCB0cmFpbl9hdWMsIHZhbF9hdWMsIGtleT0iYXVjIiwgdGl0bGU9ImF1YyIpCiAgICBwbG90X3ZhbGlkYXRpb24oY29udGV4dCwgdHJhaW5fbG9nbG9zcywgdmFsX2xvZ2xvc3MsIGtleT0ibG9nbG9zcyIsIHRpdGxlPSJsb2dsb3NzIikKCiAgICAjIHBsb3QgY29uZnVzaW9uIG1hdHJpeCB1c2luZyB2YWxpZGF0aW9uIHNldAogICAgIyBUT0RPOiByZXBsYWNlIHdpdGggc2tsZWFybiBvciB5ZWxsb3dicmljayBjbGFzc2lmaWNhdGlvbiByZXBvcnQKICAgIHBsb3RfY29uZnVzaW9uX21hdHJpeCgKICAgICAgICBjb250ZXh0LCAKICAgICAgICB5dmFsaWQsIAogICAgICAgIHlwcmVkLAogICAgICAgIGtleT0iY29uZnVzaW9uIiwKICAgICAgICBmbXQ9InBuZyIpCgojICAgICBwbG90IGZlYXR1cmUgaW1wb3J0YW5jZXMKICAgIHBsb3RfaW1wb3J0YW5jZSgKICAgICAgICBjb250ZXh0LAogICAgICAgIG1vZGVsLAogICAgICAgIGtleT0iZmVhdGltcCIsCiAgICAgICAgZm10PSJwbmciKQogICAgCmRlZiBwbG90X3ZhbGlkYXRpb24oCiAgICBjb250ZXh0OiBNTENsaWVudEN0eCwKICAgIHRyYWluX21ldHJpYywKICAgIHZhbGlkX21ldHJpYywKICAgIGtleTogc3RyID0gInRyYWluaW5nLWhpc3RvcnkiLAogICAgdGl0bGU6IHN0ciA9ICJhdWMiLAogICAgZm10PSJwbmciCik6CiAgICAiIiJQbG90IHRyYWluIGFuZCB2YWxpZGF0aW9uIGxvc3MgY3VydmVzCgogICAgVGhlc2UgY3VydmVzIHJlcHJlc2VudCB0aGUgdHJhaW5pbmcgcm91bmQgbG9zc2VzIGZyb20gdGhlIHRyYWluaW5nCiAgICBhbmQgdmFsaWRhdGlvbiBzZXRzLgogICAgCiAgICA6cGFyYW0gY29udGV4dDogICAgICAgICB0aGUgZnVuY3Rpb24gY29udGV4dAogICAgOnBhcmFtIHRyYWluX21ldHJpYzogICAgdHJhaW4gbWV0cmljCiAgICA6cGFyYW0gdmFsaWRfbWV0cmljOiAgICB2YWxpZGF0aW9uIG1ldHJpYwogICAgIiIiCiAgICBfZ2NmX2NsZWFyKHBsdCkKICAgIAogICAgIyBnZW5lcmF0ZSBwbG90CiAgICBwbHQucGxvdCh0cmFpbl9tZXRyaWMpCiAgICBwbHQucGxvdCh2YWxpZF9tZXRyaWMpCiAgICBwbHQudGl0bGUoZiJ0cmFpbmluZyBoaXN0b3J5IC0ge3RpdGxlfSIpCiAgICBwbHQueGxhYmVsKCJlcG9jaCIpCiAgICBwbHQueWxhYmVsKCIiKQogICAgcGx0LmxlZ2VuZChbInRyYWluIiwgInZhbGlkIl0pCgogICAgIyBzYXZlIGZpZ3VyZSBhbmQgbG9nIGFydGlmYWN0CiAgICBwbHQuc2F2ZWZpZyhvcy5wYXRoLmpvaW4oY29udGV4dC5hcnRpZmFjdF9wYXRoLCBmInBsb3RzL3trZXl9LntmbXR9IikpCiAgICBjb250ZXh0LmxvZ19hcnRpZmFjdChQbG90QXJ0aWZhY3Qoa2V5LCAgYm9keT1wbHQuZ2NmKCkpLCBsb2NhbF9wYXRoPWYicGxvdHMve2tleX0ue2ZtdH0iKQogICAgCmRlZiBwbG90X3JvYygKICAgIGNvbnRleHQ6IE1MQ2xpZW50Q3R4LCAKICAgIHlfbGFiZWxzLAogICAgeV9wcm9icywKICAgIGtleT0icm9jIiwKICAgIGZtdD0icG5nIgopOgogICAgIiIiUGxvdCBhbiBST0MgY3VydmUgZnJvbSB0ZXN0IGRhdGEgc2F2ZWQgaW4gYW4gYXJ0aWZhY3Qgc3RvcmUuCiAgICAKICAgIDpwYXJhbSBjb250ZXh0OiAgICAgICAgIGZ1bmN0aW9uIGNvbnRleHQKICAgIDpwYXJhbSB5X2xhYmVsczogICAgICAgIHRlc3QgZGF0YSBsYWJlbHMKICAgIDpwYXJhbSB5X3Byb2JzOiAgICAgICAgIHRlc3QgZGF0YSAKICAgICIiIgogICAgX2djZl9jbGVhcihwbHQpCiAgICAKICAgIGZwcl94ZywgdHByX3hnLCBfID0gcm9jX2N1cnZlKHlfbGFiZWxzLCB5X3Byb2JzKQogICAgcGx0LnBsb3QoWzAsIDFdLCBbMCwgMV0sICJrLS0iKQogICAgcGx0LnBsb3QoZnByX3hnLCB0cHJfeGcsIGxhYmVsPSJyb2MiKQogICAgcGx0LnhsYWJlbCgiZmFsc2UgcG9zaXRpdmUgcmF0ZSIpCiAgICBwbHQueWxhYmVsKCJ0cnVlIHBvc2l0aXZlIHJhdGUiKQogICAgcGx0LnRpdGxlKCJyb2MgY3VydmUiKQogICAgcGx0LmxlZ2VuZChsb2M9ImJlc3QiKQoKICAgIGZpZyA9IHBsdC5nY2YoKQogICAgZmlnLnNhdmVmaWcob3MucGF0aC5qb2luKGNvbnRleHQuYXJ0aWZhY3RfcGF0aCwgZiJwbG90cy97a2V5fS57Zm10fSIpKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3QoUGxvdEFydGlmYWN0KGtleSwgIGJvZHk9ZmlnKSwgbG9jYWxfcGF0aD1mInBsb3RzL3trZXl9LntmbXR9IikKCmRlZiBwbG90X2NvbmZ1c2lvbl9tYXRyaXgoCiAgICBjb250ZXh0OiBNTENsaWVudEN0eCwgCiAgICBsYWJlbHMsIAogICAgcHJlZGljdGlvbnMsCiAgICBrZXk6IHN0ciA9ImNvbmZ1c2lvbl9tYXRyaXgiLAogICAgZm10OiBzdHIgPSAicG5nIgopOgogICAgIiIiQ3JlYXRlIGEgY29uZnVzaW9uIG1hdHJpeC4KICAgIFBsb3QgYW5kIHNhdmUgYSBjb25mdXNpb24gbWF0cml4IHVzaW5nIHRlc3QgZGF0YSBmcm9tIGEKICAgIG1vZGVsbGluZSBzdGVwLgogICAgOnBhcmFtIGNvbnRleHQ6ICAgICAgICAgZnVuY3Rpb24gY29udGV4dAogICAgOnBhcmFtIGxhYmVsczogICAgICAgICAgdGVzdCBkYXRhIGxhYmVscwogICAgOnBhcmFtIHByZWRpY3Rpb25zOiAgICAgdGVzdCBkYXRhIHByZWRpY3Rpb25zCiAgICAiIiIKICAgIF9nY2ZfY2xlYXIocGx0KQoKICAgIGNtID0gY29uZnVzaW9uX21hdHJpeChsYWJlbHMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgcHJlZGljdGlvbnMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgc2FtcGxlX3dlaWdodD1Ob25lKQogICAgIyAgICAgICAgICAgICAgICAgICAgIG5vcm1hbGl6ZT0iYWxsIikKICAgIHNucy5oZWF0bWFwKGNtLCBhbm5vdD1UcnVlLCBjbWFwPSJCbHVlcyIpCgogICAgZmlnID0gcGx0LmdjZigpCiAgICBmaWcuc2F2ZWZpZyhvcy5wYXRoLmpvaW4oY29udGV4dC5hcnRpZmFjdF9wYXRoLCBmInBsb3RzL3trZXl9LntmbXR9IikpCiAgICBjb250ZXh0LmxvZ19hcnRpZmFjdChQbG90QXJ0aWZhY3Qoa2V5LCAgYm9keT1maWcpLCBsb2NhbF9wYXRoPWYicGxvdHMve2tleX0ue2ZtdH0iKQoKICAgIF9nY2ZfY2xlYXIocGx0KQoKZGVmIHBsb3RfaW1wb3J0YW5jZSgKICAgIGNvbnRleHQsCiAgICBtb2RlbCwKICAgIGtleTogc3RyID0gImZlYXR1cmUtaW1wb3J0YW5jZXMiLAogICAgZm10ID0gInBuZyIKKToKICAgICIiIkRpc3BsYXkgZXN0aW1hdGVkIGZlYXR1cmUgaW1wb3J0YW5jZXMuCiAgICA6cGFyYW0gY29udGV4dDogICAgIGZ1bmN0aW9uIGNvbnRleHQKICAgIDpwYXJhbSBtb2RlbDogICAgICAgZml0dGVkIGxpZ2h0Z2JtIG1vZGVsCiAgICAiIiIKICAgIF9nY2ZfY2xlYXIocGx0KQogICAgCiAgICAjIGNyZWF0ZSBhIGZlYXR1cmUgaW1wb3J0YW5jZSB0YWJsZSB3aXRoIGRlc2lyZWQgbGFiZWxzCiAgICB6aXBwZWQgPSB6aXAobW9kZWwuZmVhdHVyZV9pbXBvcnRhbmNlc18sIGNvbnRleHQuaGVhZGVyKQoKICAgIGZlYXR1cmVfaW1wID0gcGQuRGF0YUZyYW1lKHNvcnRlZCh6aXBwZWQpLCBjb2x1bW5zPVsiZnJlcSIsImZlYXR1cmUiXQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICkuc29ydF92YWx1ZXMoYnk9ImZyZXEiLCBhc2NlbmRpbmc9RmFsc2UpCgogICAgcGx0LmZpZ3VyZShmaWdzaXplPSgyMCwgMTApKQogICAgc25zLmJhcnBsb3QoeD0iZnJlcSIsIHk9ImZlYXR1cmUiLCBkYXRhPWZlYXR1cmVfaW1wKQogICAgcGx0LnRpdGxlKCJmZWF0dXJlcyIpCiAgICBwbHQudGlnaHRfbGF5b3V0KCkKCiAgICBmaWcgPSBwbHQuZ2NmKCkKICAgIGZpZy5zYXZlZmlnKG9zLnBhdGguam9pbihjb250ZXh0LmFydGlmYWN0X3BhdGgsIGYicGxvdHMve2tleX0ue2ZtdH0iKSkKICAgIGNvbnRleHQubG9nX2FydGlmYWN0KFBsb3RBcnRpZmFjdChmIntrZXl9LntmbXR9IiwgYm9keT1maWcpLCBsb2NhbF9wYXRoPWYicGxvdHMve2tleX0ue2ZtdH0iKQoKICAgICMgZmVhdHVyZSBpbXBvcnRhbmNlcyBhcmUgYWxzbyBzYXZlZCBhcyBhIHRhYmxlOgogICAgZmVhdHVyZV9pbXAudG9fY3N2KG9zLnBhdGguam9pbihjb250ZXh0LmFydGlmYWN0X3BhdGgsIGtleSsiLmNzdiIpKQogICAgY29udGV4dC5sb2dfYXJ0aWZhY3Qoa2V5KyIuY3N2IiwgbG9jYWxfcGF0aD1rZXkrIi5jc3YiKQoKICAgIF9nY2ZfY2xlYXIocGx0KQ==', 'source': 'http://github.com/zilbermanor/demo-network-operations#refs/heads/master', 'commands': [], 'code_origin': '#22e21274be22a767435c8f3dd21169d8912e99cc'}}}
+      - |-
+        --image
+      - |-
+        yjbds/mlrun-ml:v0.4.5
+      - ""
+      "env":
+      - "name": |-
+          MLRUN_DBPATH
+        "value": |-
+          http://mlrun-api:8080
+      "image": |-
+        mlrun/mlrun:0.4.6
+    "inputs":
+      "parameters":
+      - "name": |-
+          RNG
+      - "name": |-
+          SAMPLE_SIZE
+      - "name": |-
+          TEST_SIZE
+      - "name": |-
+          TRAIN_VAL_SPLIT
+      - "name": |-
+          aggregate-aggregate
+      - "name": |-
+          class_params
+      - "name": |-
+          fit_params
+      - "name": |-
+          label_column
+      - "name": |-
+          sum-scale_pos_weight
+    "name": |-
+      train
+    "outputs":
+      "artifacts":
+      - "name": |-
+          mlpipeline-ui-metadata
+        "path": |-
+          /mlpipeline-ui-metadata.json
+      - "name": |-
+          mlpipeline-metrics
+        "path": |-
+          /mlpipeline-metrics.json
+      - "name": |-
+          train-model
+        "path": |-
+          /tmp/model
+      - "name": |-
+          train-test-set
+        "path": |-
+          /tmp/test-set
+      "parameters":
+      - "name": |-
+          train-model
+        "valueFrom":
+          "path": |-
+            /tmp/model
