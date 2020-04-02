@@ -50,8 +50,7 @@ def kfpipeline(
     
     # Run preprocessing on the data
     aggregate = funcs['aggregate'].as_step(name='aggregate',
-                                                  params={'df_artifact': df_artifact,
-                                                          'metrics': metrics,
+                                                  params={'metrics': metrics,
                                                           'labels': labels,
                                                           'metric_aggs': metric_aggs,
                                                           'label_aggs': label_aggs,
@@ -60,6 +59,7 @@ def kfpipeline(
                                                           'window': window,
                                                           'center': center,
                                                           'save_to': save_to},
+                                                  inputs={'df_artifact': df_artifact},
                                                   outputs=['aggregate'],
                                                   handler='aggregate')
 
@@ -75,13 +75,13 @@ def kfpipeline(
     
     train = funcs['train'].as_step(name='train', 
                                           handler='train_model',
-                                          params={'model_pkg_class' : config_filepath,
-                                                  'sample'          : -1,
+                                          params={'sample'          : -1,
                                                   'label_column'    : "is_error",
                                                   'test_size'       : 0.10,
                                                   'train_val_split' : 0.75,
                                                   'rng'             : 1},
-                                          inputs={"data_key": aggregate.outputs['aggregate']},
+                                          inputs={"data_key": aggregate.outputs['aggregate'],
+                                                  'model_pkg_class' : config_filepath},
                                           outputs=['model', 'test-set'])
     
 #     test = funcs['test'].as_step()

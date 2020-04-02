@@ -19,12 +19,12 @@ artifacts:
 - key: metrics
   kind: ''
   iter: 0
-  tree: c57099046989eb065ee1f94445dd69d333bc1137
+  tree: 6adee493675c294657ac417dc7b213f031fdeb73
   target_path: /User/demo-network-operations/data/metrics.parquet
   db_key: metrics
 - key: lgb_configs
   kind: ''
   iter: 0
-  tree: c57099046989eb065ee1f94445dd69d333bc1137
+  tree: 6adee493675c294657ac417dc7b213f031fdeb73
   target_path: /User/demo-network-operations/data/lgb_model.json
   db_key: lgb_configs
