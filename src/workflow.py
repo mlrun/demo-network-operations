@@ -11,11 +11,8 @@ def init_functions(functions: dict, project=None, secrets=None):
         
         # Always pull images to keep updates
         f.spec.image_pull_policy = 'Always'
+                
         
-    functions['aggregate'].spec.image = 'mlrun/ml-models:0.4.6'
-    for fn, fv in functions.items():
-        print(f'Function: {fn}')
-        print(fv.spec)
 @dsl.pipeline(
     name='Network Operations Demo',
     description='Train a Failure Prediction LGBM Model over sensor data'
@@ -64,8 +61,7 @@ def kfpipeline(
                                                           'center': center,
                                                           'save_to': save_to},
                                                   outputs=['aggregate'],
-                                                  handler='aggregate',
-                                                  image='mlrun/mlrun')
+                                                  handler='aggregate')
 
     describe = funcs['describe'].as_step(name='describe-feature-vector',
                                                 handler="summarize",  
