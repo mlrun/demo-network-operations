@@ -23,7 +23,7 @@ Pre-requisites:
 
 3. Run the [Generator](notebooks/generator.ipynb) notebook to create the metrics dataset.
 
-4. Open the [run project notebook](run_project.ipynb) and follow the instructions to run an automated ML Pipeline.
+4. Open the [project notebook](project.ipynb) and follow the instructions to develop and run an automated ML Pipeline.
 
 > Note: alternatively you can run the `main` pipeline from the CLI and specify artifacts path using:
 
@@ -33,15 +33,13 @@ Pre-requisites:
 ## Files
 ### Notebooks
 * [Generator notebook (Generate metrics dataset)](notebooks/generator.ipynb)
-* [Project creation and testing notebook](notebooks/project.ipynb)  
-* [Preprocessing notebook (Rolling aggregate function)](notebooks/preprocessing.ipynb)
+* [Project creation and testing notebook](project.ipynb) 
+* [Model server notebook](notebooks/model-server.ipynb)
 
 ### Project Files
 * [Project spec (functions, workflows, etc)](project.yaml)
-* [Local function spec (Aggregate)](src/aggregate.yaml)
 
-### Source code
-* [Aggregate Function code (generated from notebook)](src/aggregate.py)
+### Workflow code
 * [Workflow code (init + dsl)](src/workflow.py)
 
 
