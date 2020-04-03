@@ -24,7 +24,7 @@ def kfpipeline(
         metric_aggs = ['mean', 'sum'],
         label_aggs = ['max'],
         suffix = 'daily',
-        append_to_df = True,
+        inplace = False,
         window = 5,
         center = True,
         save_to = os.path.join('data', 'aggregate.pq'),
@@ -35,13 +35,14 @@ def kfpipeline(
         TEST_SIZE        = 0.1,       # 10% set aside
         TRAIN_VAL_SPLIT  = 0.75,      # remainder split into train and val
         RNG              = 1,
+        score_method = 'micro',
         config_filepath = 'store://network-operations/lgb_configs',
     ):
     
     describe = funcs['describe'].as_step(name='describe-raw-data',
                                                 handler="summarize",  
                                                 params={"key": "summary", 
-                                                        "label_column": "is_error", 
+                                                        "label_column": label_column, 
                                                         'class_labels': ['0', '1'],
                                                         'plot_hist': True,
                                                         'plot_dest': 'plots'},
@@ -55,7 +56,7 @@ def kfpipeline(
                                                           'metric_aggs': metric_aggs,
                                                           'label_aggs': label_aggs,
                                                           'suffix': suffix,
-                                                          'append_to_df': append_to_df,
+                                                          'inplace': inplace,
                                                           'window': window,
                                                           'center': center,
                                                           'save_to': save_to},
@@ -66,7 +67,7 @@ def kfpipeline(
     describe = funcs['describe'].as_step(name='describe-feature-vector',
                                                 handler="summarize",  
                                                 params={"key": "summary", 
-                                                        "label_column": "is_error", 
+                                                        "label_column": label_column, 
                                                         'class_labels': ['0', '1'],
                                                         'plot_hist': True,
                                                         'plot_dest': 'plots'},
@@ -75,16 +76,21 @@ def kfpipeline(
     
     train = funcs['train'].as_step(name='train', 
                                           handler='train_model',
-                                          params={'sample'          : -1,
-                                                  'label_column'    : "is_error",
-                                                  'test_size'       : 0.10,
-                                                  'train_val_split' : 0.75,
-                                                  'rng'             : 1},
-                                          inputs={"data_key": aggregate.outputs['aggregate'],
-                                                  'model_pkg_class' : config_filepath},
-                                          outputs=['model', 'test-set'])
+                                          params={'sample'          : SAMPLE_SIZE,
+                                                  'label_column'    : label_column,
+                                                  'test_size'       : TEST_SIZE,
+                                                  'train_val_split' : TRAIN_VAL_SPLIT,
+                                                  'rng'             : RNG,
+                                                  'score_method'    : score_method},
+                                          inputs={"dataset": aggregate.outputs['aggregate'],
+                                                  'model_pkg_file' : config_filepath},
+                                          outputs=['model', 'test_set'])
     
-#     test = funcs['test'].as_step()
+    test = funcs['test'].as_step(name='test',
+                                 handler='test_classifier',
+                                 params={'label_column': label_column},
+                                 inputs={'models_path': train.outputs['model'],
+                                         'test_set': train.outputs['test_set']})
     
     # deploy the model using nuclio functions
     deploy = funcs['serving'].deploy_step(project='nuclio-serving',
