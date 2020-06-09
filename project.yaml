@@ -1,30 +1,26 @@
 name: network-operations
 functions:
-- url: notebooks/generator.ipynb
-  name: generator
-- url: hub://aggregate:development
+- url: hub://aggregate
   name: aggregate
-- url: hub://describe:master
+- url: hub://describe
   name: describe
-- url: hub://sklearn_classifier:development
+- url: hub://feature_selection
+  name: feature_selection
+- url: hub://sklearn_classifier
   name: train
-- url: hub://test_classifier:master
+- url: hub://test_classifier
   name: test
-- url: notebooks/model-server.ipynb
+- url: hub://model_server
   name: serving
+- url: hub://model_server_tester
+  name: model_server-tester
+- url: hub://concept_drift
+  name: concept_drift
+- url: hub://stream_to_parquet
+  name: s2p
+- url: hub://virtual_drift
+  name: virtual_drift
 workflows:
 - name: main
   path: /User/demo-network-operations/src/workflow.py
-artifacts:
-- key: metrics
-  kind: ''
-  iter: 0
-  tree: 43ee819b83829c4d199895e0266d6bae2829a1ed
-  target_path: /User/demo-network-operations/data/metrics.parquet
-  db_key: metrics
-- key: lgb_configs
-  kind: ''
-  iter: 0
-  tree: 43ee819b83829c4d199895e0266d6bae2829a1ed
-  target_path: /User/demo-network-operations/data/lgb_model.json
-  db_key: lgb_configs
+artifacts: []
