@@ -7,6 +7,8 @@ In this demo we show:
 - Using github as a source for functions to use in our pipeline workflows
 - Use MLRun logging to track results and artifacts
 - Running a Kubeflow Pipeline using MLRun
+- Deploy live endpoints
+- Deploy Concept Drift
 
 The demo applications are tested on the Iguazio's Data Science PaaS, and use Iguazio's shared data fabric (v3io), and can be modified to work with any shared file storage by replacing the `apply(v3io_mount())` calls with other KubeFlow volume modifiers (e.g. `apply(mlrun.platforms.mount_pvc())`) . You can request a free trial of Iguazio PaaS.
 
@@ -33,8 +35,10 @@ Pre-requisites:
 ## Files
 ### Notebooks
 * [Generator notebook (Generate metrics dataset)](notebooks/generator.ipynb)
+* [Preprocessor notebook](notebooks/preprocessor.ipynb)
+* [Model server notebook](notebooks/server.ipynb)
+* [Labeled stream creator](notebooks/labeled_stream_creator.ipynb)
 * [Project creation and testing notebook](project.ipynb) 
-* [Model server notebook](notebooks/model-server.ipynb)
 
 ### Project Files
 * [Project spec (functions, workflows, etc)](project.yaml)
