@@ -1,0 +1,83 @@
+kind: remote
+metadata:
+  name: inference-server
+  tag: ''
+  hash: d6c8252397020e152aef0c494e4a09f61877a9db
+  project: network-operations
+spec:
+  command: ''
+  args: []
+  image: ''
+  entry_points:
+    get_data_parquet:
+      name: get_data_parquet
+      doc: ''
+      parameters:
+      - name: context
+      outputs: []
+      lineno: 10
+    save_to_parquet:
+      name: save_to_parquet
+      doc: ''
+      parameters:
+      - name: context
+      - name: df
+      outputs: []
+      lineno: 15
+    init_context:
+      name: init_context
+      doc: ''
+      parameters:
+      - name: context
+      outputs: []
+      lineno: 31
+    handler:
+      name: handler
+      doc: ''
+      parameters:
+      - name: context
+      - name: event
+      outputs: []
+      lineno: 49
+  description: ''
+  min_replicas: 1
+  max_replicas: 4
+  env:
+  - name: V3IO_API
+    value: ''
+  - name: V3IO_USERNAME
+    value: ''
+  - name: V3IO_ACCESS_KEY
+    value: ''
+  config:
+    spec.triggers.cron:
+      kind: cron
+      attributes:
+        interval: 1m
+  base_spec:
+    apiVersion: nuclio.io/v1
+    kind: Function
+    metadata:
+      annotations:
+        nuclio.io/generated_by: function generated from 12-07-2020 by admin
+      labels: {}
+      name: inference-server
+    spec:
+      build:
+        commands: []
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IGNsb3VkcGlja2xlCmltcG9ydCBudW1weSBhcyBucAppbXBvcnQganNvbgpmcm9tIG1scnVuIGltcG9ydCBnZXRfb3JfY3JlYXRlX2N0eAoKZGVmIGdldF9kYXRhX3BhcnF1ZXQoY29udGV4dCk6CiAgICBtcGF0aCA9IFtvcy5wYXRoLmpvaW4oY29udGV4dC5mZWF0dXJlc190YWJsZSwgZmlsZSkgZm9yIGZpbGUgaW4gb3MubGlzdGRpcihjb250ZXh0LmZlYXR1cmVzX3RhYmxlKSBpZiBmaWxlLmVuZHN3aXRoKCgncGFycXVldCcsICdwcScpKV0KICAgIGZpbGVzX2J5X3VwZGF0ZWQgPSBzb3J0ZWQobXBhdGgsIGtleT1vcy5wYXRoLmdldG10aW1lLCByZXZlcnNlPVRydWUpCiAgICByZXR1cm4gcGQucmVhZF9wYXJxdWV0KGZpbGVzX2J5X3VwZGF0ZWRbOjFdWzBdKQoKZGVmIHNhdmVfdG9fcGFycXVldChjb250ZXh0LCBkZjogcGQuRGF0YUZyYW1lKToKICAgIHByaW50KCdTYXZpbmcgZmVhdHVyZXMgdG8gUGFycXVldCcpCiAgICAKICAgIGtleXMgPSBsaXN0KGRmLmluZGV4Lm5hbWVzKQogICAgZGYgPSBkZi5yZXNldF9pbmRleCgpCiAgICBkZlsndGltZXN0YW1wJ10gPSBkZi5sb2NbOiwgJ3RpbWVzdGFtcCddLmFzdHlwZSgnZGF0ZXRpbWU2NFttc10nKQogICAgCiAgICBkZiA9IGRmLnNldF9pbmRleChrZXlzKQogICAgCiAgICBmaXJzdF90aW1lc3RhbXAgPSBkZi5pbmRleFswXVswXS5zdHJmdGltZSgnJVklbSVkVCVIJU0lUycpCiAgICBsYXN0X3RpbWVzdGFtcCA9IGRmLmluZGV4Wy0xXVswXS5zdHJmdGltZSgnJVklbSVkVCVIJU0lUycpCiAgICBmaWxlbmFtZSA9IGZpcnN0X3RpbWVzdGFtcCArICctJyArIGxhc3RfdGltZXN0YW1wICsgJy5wYXJxdWV0JwogICAgZmlsZXBhdGggPSBvcy5wYXRoLmpvaW4oY29udGV4dC5wcmVkaWN0aW9uc190YWJsZSwgZmlsZW5hbWUpCiAgICB3aXRoIG9wZW4oZmlsZXBhdGgsICd3YisnKSBhcyBmOgogICAgICAgIGRmLnRvX3BhcnF1ZXQoZikKCmRlZiBpbml0X2NvbnRleHQoY29udGV4dCk6CiAgICBzZXRhdHRyKGNvbnRleHQsICdmZWF0dXJlc190YWJsZScsIG9zLmdldGVudignRkVBVFVSRVNfVEFCTEUnLCAnbmV0b3BzX2ZlYXR1cmVzJykpCiAgICBzZXRhdHRyKGNvbnRleHQsICdwcmVkaWN0aW9uc190YWJsZScsIG9zLmdldGVudignUFJFRElDVElPTlNfVEFCTEUnLCAnbmV0b3BzX3ByZWRpY3Rpb25zJykpCiAgICBzZXRhdHRyKGNvbnRleHQsICdwcmVkaWN0aW9uX2NvbCcsIG9zLmdldGVudigncHJlZGljdGlvbl9jb2wnLCAncHJlZGljdGlvbicpKQogICAgCiAgICBtb2RlbF9wYXRoID0gb3MuZW52aXJvblsnbW9kZWxfcGF0aCddCiAgICBpZiBtb2RlbF9wYXRoLnN0YXJ0c3dpdGgoJ3N0b3JlOi8vJyk6CiAgICAgICAgbWxjdHggPSBnZXRfb3JfY3JlYXRlX2N0eCgnaW5mZXJlbmNlJykKICAgICAgICBtb2RlbCA9IG1sY3R4LmdldF9kYXRhaXRlbShtb2RlbF9wYXRoKQogICAgICAgIG1vZGVsX3BhdGggPSBvcy5wYXRoLmpvaW4obW9kZWwudXJsLCAnbW9kZWwucGtsJykKICAgIHdpdGggb3Blbihtb2RlbF9wYXRoLCAncmInKSBhcyBmOgogICAgICAgIG1vZGVsID0gY2xvdWRwaWNrbGUubG9hZChmKQogICAgc2V0YXR0cihjb250ZXh0LCAnbW9kZWwnLCBtb2RlbCkKICAgIAogICAgZmlsZXBhdGggPSBvcy5wYXRoLmpvaW4oY29udGV4dC5wcmVkaWN0aW9uc190YWJsZSkKICAgIGlmIG5vdCBvcy5wYXRoLmV4aXN0cyhmaWxlcGF0aCk6CiAgICAgICAgb3MubWFrZWRpcnMoZmlsZXBhdGgpCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICAKICAgIGlmIGdldGF0dHIoZXZlbnQudHJpZ2dlciwgJ2tpbmQnLCAnY3JvbicpID09ICdjcm9uJzoKICAgICAgICBkZiA9IGdldF9kYXRhX3BhcnF1ZXQoY29udGV4dCkKCiAgICAgICAgZGZbY29udGV4dC5wcmVkaWN0aW9uX2NvbF0gPSBjb250ZXh0Lm1vZGVsLnByZWRpY3QoZGYudmFsdWVzKQoKICAgICAgICBzYXZlX3RvX3BhcnF1ZXQoY29udGV4dCwgZGYpCiAgICBlbHNlOgogICAgICAgIGJvZHkgPSBqc29uLmxvYWRzKGV2ZW50LmJvZHkpCiAgICAgICAgZmVhdHMgPSBucC5hc2FycmF5KGJvZHlbJ2luc3RhbmNlcyddKQogICAgICAgIHJlc3VsdDogbnAubmRhcnJheSA9IGNvbnRleHQubW9kZWwucHJlZGljdChmZWF0cykKICAgICAgICByZXR1cm4gcmVzdWx0LnRvbGlzdCgpCgo=
+        noBaseImagesPull: true
+        baseImage: mlrun/ml-models
+      env:
+      - name: FEATURES_TABLE
+        value: /User/demo-network-operations/streaming/features
+      - name: PREDICTIONS_TABLE
+        value: /User/demo-network-operations/streaming/inference_pq
+      - name: prediction_col
+        value: predictions
+      - name: model_path
+        value: store://network-operations/train_model#f2ea18dd-504d-4d14-83d2-a326fe5afc37
+      handler: server:handler
+      runtime: python:3.6
+      volumes: []
+  source: ''
