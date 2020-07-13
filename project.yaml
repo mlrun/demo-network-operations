@@ -10,8 +10,6 @@ functions:
   name: train
 - url: hub://test_classifier
   name: test
-- url: hub://model_server
-  name: serving
 - url: hub://model_server_tester
   name: model_server-tester
 - url: hub://concept_drift
@@ -20,7 +18,21 @@ functions:
   name: s2p
 - url: hub://virtual_drift
   name: virtual_drift
+- url: /User/demo-network-operations/src/generator.yaml
+  name: generator
+- url: /User/demo-network-operations/src/preprocessor.yaml
+  name: preprocessor
+- url: /User/demo-network-operations/src/inference-server.yaml
+  name: serving
+- url: /User/demo-network-operations/src/labeled_stream_creator.yaml
+  name: labeled_stream
 workflows:
 - name: main
   path: /User/demo-network-operations/src/workflow.py
-artifacts: []
+artifacts:
+- key: metrics
+  kind: ''
+  iter: 0
+  tree: 864b61a81feefc9783f9828eef82a806a354cef7
+  target_path: /User/demo-network-operations/data/metrics.pq
+  db_key: metrics
