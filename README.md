@@ -45,9 +45,9 @@ The netops pipeline itself is made from the following components:
 
 ### Concept drift deployment pipeline
 The concept drift pipeline is made of two main components:  
-**[Concept Drift Detectors]():** Using streaming drift detectors like DDM and PH.
+**[Concept Drift Detectors](https://github.com/mlrun/functions/blob/master/concept_drift/concept_drift.ipynb):** Using streaming drift detectors like DDM and PH.
 we use a `job` to initialise the models with a base labeled dataset and produce a live Nuclio endpoint to enlist to the labeled stream.  
-**[Drift Magnitude]():** Taking batches of data via parquet, we apply multiple drift magnitude metrics like TVD, Helinger and KL Divergence to assess the drift between a base dataset and the latest data.
+**[Drift Magnitude](https://github.com/mlrun/functions/blob/e236a6b006e9e5a095a93c4822e422ebce5ac2dc/virtual_drift/virtual_drift.ipynb):** Taking batches of data via parquet, we apply multiple drift magnitude metrics like TVD, Helinger and KL Divergence to assess the drift between a base dataset and the latest data.
 
 <br><p align="center"><img src="./docs/run-pipeline.png"/></p><br>
 
