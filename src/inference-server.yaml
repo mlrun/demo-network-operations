@@ -2,7 +2,7 @@ kind: remote
 metadata:
   name: inference-server
   tag: ''
-  hash: d6c8252397020e152aef0c494e4a09f61877a9db
+  hash: 4c633cee0bf9f43b6043670aab916e98057440ac
   project: network-operations
 spec:
   command: ''
@@ -14,30 +14,41 @@ spec:
       doc: ''
       parameters:
       - name: context
-      outputs: []
+        default: ''
+      outputs:
+      - default: ''
       lineno: 10
     save_to_parquet:
       name: save_to_parquet
       doc: ''
       parameters:
       - name: context
+        default: ''
       - name: df
-      outputs: []
+        type: DataFrame
+        default: ''
+      outputs:
+      - default: ''
       lineno: 15
     init_context:
       name: init_context
       doc: ''
       parameters:
       - name: context
-      outputs: []
+        default: ''
+      outputs:
+      - default: ''
       lineno: 31
     handler:
       name: handler
       doc: ''
       parameters:
       - name: context
+        default: ''
       - name: event
-      outputs: []
+        default: ''
+      outputs:
+      - default: ''
       lineno: 49
   description: ''
   min_replicas: 1
@@ -59,7 +70,7 @@ spec:
     kind: Function
     metadata:
       annotations:
-        nuclio.io/generated_by: function generated from 12-07-2020 by admin
+        nuclio.io/generated_by: function generated from 22-07-2020 by admin
       labels: {}
       name: inference-server
     spec:
