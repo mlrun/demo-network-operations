@@ -1,22 +1,22 @@
 name: network-operations
 functions:
-- url: hub://aggregate:fix-describe
+- url: hub://aggregate:master
   name: aggregate
-- url: hub://describe:fix-describe
+- url: hub://describe:master
   name: describe
-- url: hub://feature_selection:fix-describe
+- url: hub://feature_selection:master
   name: feature_selection
-- url: hub://sklearn_classifier:fix-describe
+- url: hub://sklearn_classifier:master
   name: train
-- url: hub://test_classifier:fix-describe
+- url: hub://test_classifier:master
   name: test
-- url: hub://model_server_tester:fix-describe
+- url: hub://model_server_tester:master
   name: model_server-tester
-- url: hub://concept_drift:fix-describe
+- url: hub://concept_drift:master
   name: concept_drift
-- url: hub://stream_to_parquet:fix-describe
+- url: hub://stream_to_parquet:master
   name: s2p
-- url: hub://virtual_drift:fix-describe
+- url: hub://virtual_drift:master
   name: virtual_drift
 - url: /User/demo-network-operations/src/generator.yaml
   name: generator
