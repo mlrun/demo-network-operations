@@ -1,27 +1,27 @@
 name: network-operations
 functions:
-- url: hub://aggregate
+- url: hub://aggregate:fix-describe
   name: aggregate
-- url: hub://describe
+- url: hub://describe:fix-describe
   name: describe
-- url: hub://feature_selection
+- url: hub://feature_selection:fix-describe
   name: feature_selection
-- url: hub://sklearn_classifier
+- url: hub://sklearn_classifier:fix-describe
   name: train
-- url: hub://test_classifier
+- url: hub://test_classifier:fix-describe
   name: test
-- url: hub://model_server_tester
+- url: hub://model_server_tester:fix-describe
   name: model_server-tester
-- url: hub://concept_drift
+- url: hub://concept_drift:fix-describe
   name: concept_drift
-- url: hub://stream_to_parquet
+- url: hub://stream_to_parquet:fix-describe
   name: s2p
-- url: hub://virtual_drift
+- url: hub://virtual_drift:fix-describe
   name: virtual_drift
 - url: /User/demo-network-operations/src/generator.yaml
   name: generator
 - url: /User/demo-network-operations/src/preprocessor.yaml
-  name: preprocessor
+  name: create_feature_vector
 - url: /User/demo-network-operations/src/inference-server.yaml
   name: serving
 - url: /User/demo-network-operations/src/labeled_stream_creator.yaml
@@ -33,6 +33,13 @@ artifacts:
 - key: metrics
   kind: ''
   iter: 0
-  tree: 864b61a81feefc9783f9828eef82a806a354cef7
+  tree: 28b6dc395cae0aa7efb5a5b041ca4f08256fc678
   target_path: /User/demo-network-operations/data/metrics.pq
   db_key: metrics
+- key: lgb_configs
+  kind: ''
+  iter: 0
+  tree: 28b6dc395cae0aa7efb5a5b041ca4f08256fc678
+  target_path: /User/demo-network-operations/data/lgb_model.json
+  db_key: lgb_configs
+artifact_path: ''
