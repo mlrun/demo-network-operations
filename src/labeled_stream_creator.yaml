@@ -2,7 +2,7 @@ kind: remote
 metadata:
   name: labeled-stream-creator
   tag: ''
-  hash: bf860f507ba0e6b8dc15269564ed3b2cd9486fea
+  hash: c734fd3ecadf8aab9a56ba7c3eae80b6c34e78a9
   project: network-operations
 spec:
   command: ''
@@ -14,51 +14,67 @@ spec:
       doc: ''
       parameters:
       - name: mntpath
-      outputs: []
+        default: ''
+      outputs:
+      - default: ''
       lineno: 9
     create_stream:
       name: create_stream
       doc: ''
       parameters:
       - name: context
+        default: ''
       - name: path
+        default: ''
       - name: shards
         default: 1
-      outputs: []
+      outputs:
+      - default: ''
       lineno: 19
     push_to_stream:
       name: push_to_stream
       doc: ''
       parameters:
       - name: context
+        default: ''
       - name: stream_path
+        default: ''
       - name: data
-      outputs: []
+        default: ''
+      outputs:
+      - default: ''
       lineno: 28
     get_data_parquet:
       name: get_data_parquet
       doc: ''
       parameters:
       - name: table
+        default: ''
       - name: files_to_select
         default: 1
-      outputs: []
-      lineno: 36
+      outputs:
+      - default: ''
+      lineno: 37
     init_context:
       name: init_context
       doc: ''
       parameters:
       - name: context
-      outputs: []
-      lineno: 42
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 43
     handler:
       name: handler
       doc: ''
       parameters:
       - name: context
+        default: ''
       - name: event
-      outputs: []
-      lineno: 54
+        default: ''
+      outputs:
+      - default: ''
+      lineno: 56
   description: ''
   min_replicas: 1
   max_replicas: 4
@@ -79,23 +95,23 @@ spec:
     kind: Function
     metadata:
       annotations:
-        nuclio.io/generated_by: function generated from 13-07-2020 by admin
+        nuclio.io/generated_by: function generated from 28-07-2020 by admin
       labels: {}
       name: labeled-stream-creator
     spec:
       build:
         commands:
-        - pip install v3io
-        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IGpzb24KaW1wb3J0IHYzaW8KaW1wb3J0IHYzaW8uZGF0YXBsYW5lCgpkZWYgc3BsaXRfcGF0aChtbnRwYXRoPScnKToKICAgIGlmIG1udHBhdGhbMF0gPT0gJy8nOgogICAgICAgIG1udHBhdGggPSBtbnRwYXRoWzE6XQogICAgcGF0aHMgPSBtbnRwYXRoLnNwbGl0KCcvJykKICAgIGNvbnRhaW5lciA9IHBhdGhzWzBdCiAgICBzdWJwYXRoID0gJycKICAgIGlmIGxlbihwYXRocykgPiAxOgogICAgICAgIHN1YnBhdGggPSBtbnRwYXRoW2xlbihjb250YWluZXIpOl0KICAgIHJldHVybiBjb250YWluZXIsIHN1YnBhdGgKCmRlZiBjcmVhdGVfc3RyZWFtKGNvbnRleHQsIHBhdGgsIHNoYXJkcz0xKToKICAgIGNvbnRhaW5lciwgc3RyZWFtX3BhdGggPSBzcGxpdF9wYXRoKHBhdGgpCiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnQ3JlYXRpbmcgc3RyZWFtIGluIENvbnRhaW5lcjoge2NvbnRhaW5lcn0gJiBQYXRoIHtzdHJlYW1fcGF0aH0nKQogICAgcmVzcG9uc2UgPSBjb250ZXh0LnYzaW9fY2xpZW50LmNyZWF0ZV9zdHJlYW0oY29udGFpbmVyPWNvbnRhaW5lciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhdGg9c3RyZWFtX3BhdGgsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2hhcmRfY291bnQ9c2hhcmRzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmFpc2VfZm9yX3N0YXR1cz12M2lvLmRhdGFwbGFuZS5SYWlzZUZvclN0YXR1cy5uZXZlcikKICAgIHJlc3BvbnNlLnJhaXNlX2Zvcl9zdGF0dXMoWzQwOSwgMjA0XSkKCmRlZiBwdXNoX3RvX3N0cmVhbShjb250ZXh0LCBzdHJlYW1fcGF0aCwgZGF0YSk6CiAgICByZWNvcmRzID0ganNvbi5sb2FkcyhmdWxsX2RmLnRvX2pzb24ob3JpZW50PSdyZWNvcmRzJykpCiAgICByZWNvcmRzID0gW3snZGF0YSc6IGpzb24uZHVtcHMocmVjb3JkKX0gZm9yIHJlY29yZCBpbiByZWNvcmRzXQogICAgY29udGFpbmVyLCBzdHJlYW1fcGF0aCA9IHNwbGl0X3BhdGgoc3RyZWFtX3BhdGgpCiAgICByZXNwb25zZSA9IGNvbnRleHQudjNpb19jbGllbnQucHV0X3JlY29yZHMoY29udGFpbmVyPWNvbnRhaW5lciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwYXRoPXN0cmVhbV9wYXRoLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWNvcmRzPXJlY29yZHMpCgpkZWYgZ2V0X2RhdGFfcGFycXVldCh0YWJsZSwgZmlsZXNfdG9fc2VsZWN0PTEpOgogICAgbXBhdGggPSBbb3MucGF0aC5qb2luKHRhYmxlLCBmaWxlKSBmb3IgZmlsZSBpbiBvcy5saXN0ZGlyKHRhYmxlKSBpZiBmaWxlLmVuZHN3aXRoKCgncGFycXVldCcsICdwcScpKV0KICAgIGZpbGVzX2J5X3VwZGF0ZWQgPSBzb3J0ZWQobXBhdGgsIGtleT1vcy5wYXRoLmdldG10aW1lLCByZXZlcnNlPUZhbHNlKQogICAgZGZzID0gcGQuY29uY2F0KFtwZC5yZWFkX3BhcnF1ZXQoZmlsZSkgZm9yIGZpbGUgaW4gZmlsZXNfYnlfdXBkYXRlZFs6ZmlsZXNfdG9fc2VsZWN0XV0pCiAgICByZXR1cm4gZGZzCgpkZWYgaW5pdF9jb250ZXh0KGNvbnRleHQpOgogICAgc2V0YXR0cihjb250ZXh0LCAnbWV0cmljc190YWJsZScsIG9zLmVudmlyb25bJ01FVFJJQ1NfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ3ByZWRpY3Rpb25zX3RhYmxlJywgb3MuZW52aXJvblsnUFJFRElDVElPTlNfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ291dHB1dF9zdHJlYW0nLCBvcy5lbnZpcm9uWydPVVRQVVRfU1RSRUFNJ10pCiAgICAKICAgIHYzaW9fY2xpZW50ID0gdjNpby5kYXRhcGxhbmUuQ2xpZW50KCkKICAgIHNldGF0dHIoY29udGV4dCwgJ3YzaW9fY2xpZW50JywgdjNpb19jbGllbnQpCiAgICBjcmVhdGVfc3RyZWFtKGNvbnRleHQsIGNvbnRleHQub3V0cHV0X3N0cmVhbSkKICAgIAogICAgc2V0YXR0cihjb250ZXh0LCAnbGFiZWxfY29sJywgb3MuZW52aXJvblsnbGFiZWxfY29sJ10pCiAgICBzZXRhdHRyKGNvbnRleHQsICdwcmVkaWN0aW9uX2NvbCcsIG9zLmVudmlyb25bJ3ByZWRpY3Rpb25fY29sJ10pCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICBtZXRyaWNzID0gZ2V0X2RhdGFfcGFycXVldChjb250ZXh0Lm1ldHJpY3NfdGFibGUsIDIpLmxvY1s6LCBjb250ZXh0LmxhYmVsX2NvbF0KICAgIHByZWRpY3Rpb25zID0gZ2V0X2RhdGFfcGFycXVldChjb250ZXh0LnByZWRpY3Rpb25zX3RhYmxlLCAyKS5sb2NbOiwgY29udGV4dC5wcmVkaWN0aW9uX2NvbF0KICAgIAogICAgZnVsbF9kZiA9IHBkLm1lcmdlKGxlZnQ9bWV0cmljcywgcmlnaHQ9cHJlZGljdGlvbnMsIGxlZnRfaW5kZXg9VHJ1ZSwgcmlnaHRfaW5kZXg9VHJ1ZSkKICAgIGZ1bGxfZGYgPSBmdWxsX2RmLnJlc2V0X2luZGV4KCkKICAgIAogICAgcHVzaF90b19zdHJlYW0oY29udGV4dCwgY29udGV4dC5vdXRwdXRfc3RyZWFtLCBmdWxsX2RmKQoK
+        - python -m pip install v3io --upgrade
+        functionSourceCode: IyBHZW5lcmF0ZWQgYnkgbnVjbGlvLmV4cG9ydC5OdWNsaW9FeHBvcnRlcgoKaW1wb3J0IG9zCmltcG9ydCBwYW5kYXMgYXMgcGQKaW1wb3J0IGpzb24KaW1wb3J0IHYzaW8KaW1wb3J0IHYzaW8uZGF0YXBsYW5lCgpkZWYgc3BsaXRfcGF0aChtbnRwYXRoPScnKToKICAgIGlmIG1udHBhdGhbMF0gPT0gJy8nOgogICAgICAgIG1udHBhdGggPSBtbnRwYXRoWzE6XQogICAgcGF0aHMgPSBtbnRwYXRoLnNwbGl0KCcvJykKICAgIGNvbnRhaW5lciA9IHBhdGhzWzBdCiAgICBzdWJwYXRoID0gJycKICAgIGlmIGxlbihwYXRocykgPiAxOgogICAgICAgIHN1YnBhdGggPSBtbnRwYXRoW2xlbihjb250YWluZXIpOl0KICAgIHJldHVybiBjb250YWluZXIsIHN1YnBhdGgKCmRlZiBjcmVhdGVfc3RyZWFtKGNvbnRleHQsIHBhdGgsIHNoYXJkcz0xKToKICAgIGNvbnRhaW5lciwgc3RyZWFtX3BhdGggPSBzcGxpdF9wYXRoKHBhdGgpCiAgICBjb250ZXh0LmxvZ2dlci5pbmZvKGYnQ3JlYXRpbmcgc3RyZWFtIGluIENvbnRhaW5lcjoge2NvbnRhaW5lcn0gJiBQYXRoIHtzdHJlYW1fcGF0aH0nKQogICAgcmVzcG9uc2UgPSBjb250ZXh0LnYzaW9fY2xpZW50LmNyZWF0ZV9zdHJlYW0oY29udGFpbmVyPWNvbnRhaW5lciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHBhdGg9c3RyZWFtX3BhdGgsIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2hhcmRfY291bnQ9c2hhcmRzLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmFpc2VfZm9yX3N0YXR1cz12M2lvLmRhdGFwbGFuZS5SYWlzZUZvclN0YXR1cy5uZXZlcikKICAgIHJlc3BvbnNlLnJhaXNlX2Zvcl9zdGF0dXMoWzQwOSwgMjA0XSkKCmRlZiBwdXNoX3RvX3N0cmVhbShjb250ZXh0LCBzdHJlYW1fcGF0aCwgZGF0YSk6CiAgICByZWNvcmRzID0ganNvbi5sb2FkcyhkYXRhLnRvX2pzb24ob3JpZW50PSdyZWNvcmRzJykpCiAgICByZWNvcmRzID0gW3snZGF0YSc6IGpzb24uZHVtcHMocmVjb3JkKX0gZm9yIHJlY29yZCBpbiByZWNvcmRzXQogICAgY29udGV4dC5sb2dnZXIuZGVidWcoZidMb2dnaW5nIHtsZW4ocmVjb3Jkcyl9IHJlY29yZHMsIFJlY29yZCBleGFtcGxlOiB7cmVjb3Jkc1swXX0nKQogICAgY29udGFpbmVyLCBzdHJlYW1fcGF0aCA9IHNwbGl0X3BhdGgoc3RyZWFtX3BhdGgpCiAgICByZXNwb25zZSA9IGNvbnRleHQudjNpb19jbGllbnQucHV0X3JlY29yZHMoY29udGFpbmVyPWNvbnRhaW5lciwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBwYXRoPXN0cmVhbV9wYXRoLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZWNvcmRzPXJlY29yZHMpCgpkZWYgZ2V0X2RhdGFfcGFycXVldCh0YWJsZSwgZmlsZXNfdG9fc2VsZWN0PTEpOgogICAgbXBhdGggPSBbb3MucGF0aC5qb2luKHRhYmxlLCBmaWxlKSBmb3IgZmlsZSBpbiBvcy5saXN0ZGlyKHRhYmxlKSBpZiBmaWxlLmVuZHN3aXRoKCgncGFycXVldCcsICdwcScpKV0KICAgIGZpbGVzX2J5X3VwZGF0ZWQgPSBzb3J0ZWQobXBhdGgsIGtleT1vcy5wYXRoLmdldG10aW1lLCByZXZlcnNlPUZhbHNlKQogICAgZGZzID0gcGQuY29uY2F0KFtwZC5yZWFkX3BhcnF1ZXQoZmlsZSkgZm9yIGZpbGUgaW4gZmlsZXNfYnlfdXBkYXRlZFs6ZmlsZXNfdG9fc2VsZWN0XV0pCiAgICByZXR1cm4gZGZzCgpkZWYgaW5pdF9jb250ZXh0KGNvbnRleHQpOgogICAgc2V0YXR0cihjb250ZXh0LCAnbWV0cmljc190YWJsZScsIG9zLmVudmlyb25bJ01FVFJJQ1NfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ3ByZWRpY3Rpb25zX3RhYmxlJywgb3MuZW52aXJvblsnUFJFRElDVElPTlNfVEFCTEUnXSkKICAgIHNldGF0dHIoY29udGV4dCwgJ291dHB1dF9zdHJlYW0nLCBvcy5lbnZpcm9uWydPVVRQVVRfU1RSRUFNJ10pCiAgICAKICAgIHYzaW9fY2xpZW50ID0gdjNpby5kYXRhcGxhbmUuQ2xpZW50KGVuZHBvaW50PSdodHRwOi8vdjNpby13ZWJhcGk6ODA4MScsIGxvZ2dlcl92ZXJib3NpdHk9J0RFQlVHJywgdHJhbnNwb3J0X3ZlcmJvc2l0eT0nREVCVUcnKQogICAgc2V0YXR0cihjb250ZXh0LCAndjNpb19jbGllbnQnLCB2M2lvX2NsaWVudCkKICAgIGlmIGNvbnRleHQudHJpZ2dlci5raW5kID09ICdjcm9uJzoKICAgICAgICBjcmVhdGVfc3RyZWFtKGNvbnRleHQsIGNvbnRleHQub3V0cHV0X3N0cmVhbSkKICAgIAogICAgc2V0YXR0cihjb250ZXh0LCAnbGFiZWxfY29sJywgb3MuZW52aXJvblsnbGFiZWxfY29sJ10pCiAgICBzZXRhdHRyKGNvbnRleHQsICdwcmVkaWN0aW9uX2NvbCcsIG9zLmVudmlyb25bJ3ByZWRpY3Rpb25fY29sJ10pCgpkZWYgaGFuZGxlcihjb250ZXh0LCBldmVudCk6CiAgICBtZXRyaWNzID0gZ2V0X2RhdGFfcGFycXVldChjb250ZXh0Lm1ldHJpY3NfdGFibGUsIDIpLmxvY1s6LCBjb250ZXh0LmxhYmVsX2NvbF0uYXN0eXBlKCdpbnQnKQogICAgcHJlZGljdGlvbnMgPSBnZXRfZGF0YV9wYXJxdWV0KGNvbnRleHQucHJlZGljdGlvbnNfdGFibGUsIDIpLmxvY1s6LCBjb250ZXh0LnByZWRpY3Rpb25fY29sXS5hc3R5cGUoJ2ludCcpCiAgICBjb250ZXh0LmxvZ2dlci5kZWJ1ZyhmJ0xhYmVsaW5nIG1ldHJpY3MgKHttZXRyaWNzLnNoYXBlfSkgYW5kIHByZWRpY3Rpb25zICh7cHJlZGljdGlvbnMuc2hhcGV9KScpCiAgICAKICAgIGZ1bGxfZGYgPSBwZC5tZXJnZShsZWZ0PW1ldHJpY3MsIHJpZ2h0PXByZWRpY3Rpb25zLCBsZWZ0X2luZGV4PVRydWUsIHJpZ2h0X2luZGV4PVRydWUpCiAgICBmdWxsX2RmID0gZnVsbF9kZi5yZXNldF9pbmRleCgpCiAgICAKICAgIHB1c2hfdG9fc3RyZWFtKGNvbnRleHQsIGNvbnRleHQub3V0cHV0X3N0cmVhbSwgZnVsbF9kZikKCg==
         noBaseImagesPull: true
         baseImage: mlrun/ml-models
       env:
       - name: METRICS_TABLE
         value: /User/demo-network-operations/streaming/metrics
       - name: PREDICTIONS_TABLE
-        value: /User/demo-network-operations/streaming/inference_pq
+        value: /User/demo-network-operations/streaming/predictions
       - name: OUTPUT_STREAM
-        value: /users/admin/demo-network-operations/streaming/labeled_stream
+        value: /users/admin/demo-network-operations/streaming/labels_stream
       - name: prediction_col
         value: predictions
       - name: label_col
