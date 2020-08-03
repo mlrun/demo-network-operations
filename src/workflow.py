@@ -6,7 +6,7 @@ from nuclio.triggers import V3IOStreamTrigger
 funcs = {}
 projdir = os.getcwd()
 # mlconf.hub_url = 'https://raw.githubusercontent.com/mlrun/functions/{tag}/{name}/function.yaml'
-mlconf.hub_url = '/User/functions/{name}/function.yaml'
+# mlconf.hub_url |= '/User/functions/{name}/function.yaml'
 model_inference_stream = '/users/admin/demo-network-operations/streaming/predictions'
 model_inference_url = f'http://v3io-webapi:8081{model_inference_stream}'
 labeled_stream = 'http://v3io-webapi:8081/users/admin/demo-network-operations/streaming/labeled_stream'
