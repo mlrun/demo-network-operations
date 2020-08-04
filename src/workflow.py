@@ -8,8 +8,10 @@ projdir = os.getcwd()
 # mlconf.hub_url = 'https://raw.githubusercontent.com/mlrun/functions/{tag}/{name}/function.yaml'
 # mlconf.hub_url |= '/User/functions/{name}/function.yaml'
 model_inference_stream = '/users/admin/demo-network-operations/streaming/predictions'
-model_inference_url = f'http://v3io-webapi:8081{model_inference_stream}'
-labeled_stream = 'http://v3io-webapi:8081/users/admin/demo-network-operations/streaming/labeled_stream'
+labeled_stream = '/users/admin/demo-network-operations/streaming/labeled_stream'
+webapi_url = 'http://v3io-webapi:8081'
+model_inference_url = f'{webapi_url}{model_inference_stream}'
+labeled_stream_url = f'{webapi_url}{labeled_stream}'
 
 def init_functions(functions: dict, project=None, secrets=None):
     for f in functions.values():
@@ -20,7 +22,7 @@ def init_functions(functions: dict, project=None, secrets=None):
         f.spec.image_pull_policy = 'Always'
     
     # Define inference-stream related triggers
-    functions['s2p'].add_trigger('labeled_stream', V3IOStreamTrigger(url=f'{labeled_stream}@s2p'))
+    functions['s2p'].add_trigger('labeled_stream', V3IOStreamTrigger(url=f'{labeled_stream_url}@s2p'))
                 
         
 @dsl.pipeline(
@@ -64,18 +66,19 @@ def kfpipeline(
         streaming_metrics_table = '/User/demo-network-operations/streaming/metrics',
     
         # labeled stream creator
-        streaming_labeled_table = '/users/admin/demo-network-operations/streaming/labeled_stream',
+        streaming_labeled_table = labeled_stream,
         
         # Concept drift
         deploy_concept_drift = True,
         secs_to_generate = 10,
         concept_drift_models = ['ddm', 'eddm', 'pagehinkley'],
         output_tsdb = '/User/demo-network-operations/streaming/drift_tsdb',
-        input_stream = 'http://v3io-webapi:8081/users/admin/demo-network-operations/streaming/labeled_stream',
+        input_stream = labeled_stream_url,
         output_stream = '/User/demo-network-operations/streaming/drift_stream',
         streaming_parquet_table =  '/User/demo-network-operations/streaming/inference_pq/',
     
         # Virtual drift
+        results_tsdb_container = 'users',
         results_tsdb_table = 'admin/demo_network_operations/streaming/drift_magnitude'
     ):
     
